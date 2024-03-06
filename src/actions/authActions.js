@@ -14,6 +14,7 @@ export const login = ({ username, password, navigateTo}) => async (dispatch) => 
   try {
     const data = await api.loginUser({ username, password });
     dispatch({ type: 'LOGIN_SUCCESS', payload: data });
+    localStorage.setItem("currentUser", JSON.stringify(data))
     navigateTo('/profile')
     
   } catch (error) {

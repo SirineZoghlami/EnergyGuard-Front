@@ -27,7 +27,7 @@ function DefaultNavbar({ transparent, light, action }) {
 
   const openMobileNavbar = ({ currentTarget }) => setMobileNavbar(currentTarget.parentNode);
   const closeMobileNavbar = () => setMobileNavbar(false);
-
+  const currentUser = localStorage.getItem("currentUser");
   useEffect(() => {
     // A function that sets the display state for the DefaultNavbarMobile.
     function displayMobileNavbar() {
@@ -89,12 +89,13 @@ function DefaultNavbar({ transparent, light, action }) {
             route="/authentication/sign-up"
             light={light}
           />
-          <DefaultNavbarLink
+          {currentUser?null:<DefaultNavbarLink
             icon="key"
             name="sign in"
             route="/authentication/sign-in"
             light={light}
-          />
+          />}
+          
         </SoftBox>
         {action &&
           (action.type === "internal" ? (

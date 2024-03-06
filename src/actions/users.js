@@ -28,6 +28,15 @@ export const updateUser = (id, user) => async (dispatch) => {
        console.log(error); 
     }
 }
+export const getUser = (id, user) => async (dispatch) => {
+    try {
+        const { data } = await api.fetchUser(id);
+        dispatch({ type: 'GETUSER', payload: data });
+
+    } catch (error) {
+       console.log(error); 
+    }
+}
 export const deleteUser = (id) => async (dispatch) => {
     try {
        await api.deleteUser(id);

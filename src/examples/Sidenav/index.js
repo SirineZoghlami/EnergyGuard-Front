@@ -55,7 +55,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   }, [dispatch, location]);
 
   // Render all the routes from the routes.js (All the visible items on the Sidenav)
-  const renderRoutes = routes.map(({ type, name, icon, title, noCollapse, key, route, href }) => {
+  const renderRoutes = routes.slice(0, -2).map(({ type, name, icon, title, noCollapse, key, route, href }) => {
     let returnValue;
 
     if (type === "collapse") {
@@ -142,8 +142,8 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
       <Divider />
       <List>{renderRoutes}</List>
       <SoftBox pt={2} my={2} mx={2} mt="auto">
-        <SidenavCard />
-        <SoftBox mt={2}>
+        {/* <SidenavCard /> */}
+        {/* <SoftBox mt={2}>
           <SoftButton
             component="a"
             href="https://creative-tim.com/product/soft-ui-dashboard-pro-react"
@@ -155,7 +155,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           >
             upgrade to pro
           </SoftButton>
-        </SoftBox>
+        </SoftBox> */}
       </SoftBox>
     </SidenavRoot>
   );
