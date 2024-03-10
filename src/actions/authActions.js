@@ -4,7 +4,7 @@ export const register = ({ username, password, role, navigateTo }) => async (dis
   try {
     const data = await api.registerUser({ username, password, role });
     dispatch({ type: 'REGISTER_SUCCESS', payload: data });
-    navigateTo('/dashboard')
+    navigateTo('/authentication/sign-in')
 
   } catch (error) {
     dispatch({ type: 'REGISTER_FAILURE', payload: error });

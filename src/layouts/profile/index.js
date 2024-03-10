@@ -45,7 +45,7 @@ function Overview() {
             />
           </Grid>
           <Grid item xs={12} xl={4}>
-            <ProfilesList title="conversations" profiles={profilesListData} />
+            <ProfilesList title="users list" profiles={profilesListData} />
           </Grid>
         </Grid>
       </SoftBox>

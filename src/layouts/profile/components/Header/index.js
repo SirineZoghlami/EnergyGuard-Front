@@ -31,7 +31,7 @@ function Header() {
   // const currentUser = useSelector(state => state.auth.user);
 
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  console.log(currentUser);
+  console.log(currentUser,"hehe");
   useEffect(() => {
     // A function that sets the orientation state of the tabs.
     function handleTabsOrientation() {
