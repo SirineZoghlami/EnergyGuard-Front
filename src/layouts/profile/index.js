@@ -7,7 +7,8 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import Footer from "examples/Footer";
 import ProfileInfoCard from "examples/Cards/InfoCards/ProfileInfoCard";
 import ProfilesList from "examples/Lists/ProfilesList";
-
+import FacebookIcon from "@mui/icons-material/Facebook";
+import SoftButton from "components/SoftButton/index.js";
 
 // Overview page components
 import Header from "layouts/profile/components/Header";
@@ -23,12 +24,11 @@ function Overview() {
   useEffect(() => {
     async function getUsers()  {
       const usersList = await fetchUsers();
-   
-   setUsersList(usersList.data);
+      setUsersList(usersList.data);
     };
     getUsers()
-   
-  },[])
+  },[]);
+
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   return (
     <DashboardLayout>
@@ -39,22 +39,31 @@ function Overview() {
             <PlatformSettings />
           </Grid>
           <Grid item xs={12} md={6} xl={4}>
+            
             <ProfileInfoCard
-              title="profile information"
-              description="hehe"
+            
+              title="Profile Information"
               info={{
-                fullName: "Alec M. Thompson",
-                mobile: "(44) 123 1234 123",
-                location: "USA",
+                username: currentUser.others.username,
+                role: currentUser.others.role,
               }}
+              description="CofiCab Change Maker"
               social={[
-             
-              ]}
+                {
+                  link: "https://www.facebook.com/CoficabTunisCCE",
+                  icon: <FacebookIcon />,
+                  color: "facebook",
+                },
+
+              ]} 
               action={{ route: "", tooltip: "Edit Profile" }}
+              
             />
+            
+     
           </Grid>
           <Grid item xs={12} xl={4}>
-            <ProfilesList title="users list" profiles={usersList} />
+            <ProfilesList title="Users List" profiles={usersList} />
           </Grid>
         </Grid>
       </SoftBox>

@@ -16,7 +16,9 @@ import SoftTypography from "components/SoftTypography";
 import colors from "assets/theme/base/colors";
 import typography from "assets/theme/base/typography";
 
-function ProfileInfoCard({ title, description, info, social, action }) {
+
+
+function ProfileInfoCard({ title,info, description, social, action }) {
   const labels = [];
   const values = [];
   const { socialMediaColors } = colors;
@@ -92,7 +94,7 @@ function ProfileInfoCard({ title, description, info, social, action }) {
           {renderItems}
           <SoftBox display="flex" py={1} pr={2}>
             <SoftTypography variant="button" fontWeight="bold" textTransform="capitalize">
-              social: &nbsp;
+              CofiCab social: &nbsp;
             </SoftTypography>
             {renderSocial}
           </SoftBox>

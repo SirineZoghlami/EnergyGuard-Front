@@ -14,41 +14,29 @@ import SoftButton from "components/SoftButton";
 function ProfilesList({ title, profiles }) {
   const renderProfiles = profiles.map(({  username, role }) => (
     <SoftBox key={username} component="li" display="flex" alignItems="center" py={1} mb={1}>
-      <SoftBox mr={2}>
-        <SoftAvatar src={adminAvatar} alt="something here" variant="rounded" shadow="md" />
-      </SoftBox>
-      <SoftBox
-        display="flex"
-        flexDirection="column"
-        alignItems="flex-start"
-        justifyContent="center"
-      >
-        <SoftTypography variant="button" fontWeight="medium">
-          {username}
-        </SoftTypography>
-        <SoftTypography variant="caption" color="text">
-          {role}
-        </SoftTypography>
-      </SoftBox>
-      {/* <SoftBox ml="auto">
-        {action.type === "internal" ? (
-          <SoftButton component={Link} to={action.route} variant="text" color="info">
-            {action.label}
-          </SoftButton>
-        ) : (
-          <SoftButton
-            component="a"
-            href={action.route}
-            target="_blank"
-            rel="noreferrer"
-            variant="text"
-            color={action.color}
-          >
-            {action.label}
-          </SoftButton>
-        )}
-      </SoftBox> */}
-    </SoftBox>
+  <SoftBox mr={2}>
+    <SoftAvatar src={adminAvatar} alt="something here" variant="rounded" shadow="md" />
+  </SoftBox>
+  <SoftBox
+    display="flex"
+    flexDirection="column"
+    alignItems="flex-start"
+    justifyContent="center"
+  >
+    <SoftTypography variant="button" fontWeight="medium">
+      {username}
+    </SoftTypography>
+    <SoftTypography variant="caption" color="text">
+      {role}
+    </SoftTypography>
+    
+  </SoftBox>
+  <SoftButton type="submit" variant="gradient" color="info" style={{ marginLeft: 'auto' }}>
+      Edit User
+  </SoftButton>
+</SoftBox>
+
+    
   ));
 
   return (
