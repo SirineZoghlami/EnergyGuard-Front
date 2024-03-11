@@ -3,20 +3,19 @@ import { Link } from "react-router-dom";
 
 // prop-types is library for typechecking of props
 import PropTypes from "prop-types";
-
 // @mui material components
 import Card from "@mui/material/Card";
-
+import adminAvatar from "../../../assets/images/admin-user-icon-3.jpg"
 import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
 import SoftAvatar from "components/SoftAvatar";
 import SoftButton from "components/SoftButton";
 
 function ProfilesList({ title, profiles }) {
-  const renderProfiles = profiles.map(({ image, name, description, action }) => (
-    <SoftBox key={name} component="li" display="flex" alignItems="center" py={1} mb={1}>
+  const renderProfiles = profiles.map(({  username, role }) => (
+    <SoftBox key={username} component="li" display="flex" alignItems="center" py={1} mb={1}>
       <SoftBox mr={2}>
-        <SoftAvatar src={image} alt="something here" variant="rounded" shadow="md" />
+        <SoftAvatar src={adminAvatar} alt="something here" variant="rounded" shadow="md" />
       </SoftBox>
       <SoftBox
         display="flex"
@@ -25,13 +24,13 @@ function ProfilesList({ title, profiles }) {
         justifyContent="center"
       >
         <SoftTypography variant="button" fontWeight="medium">
-          {name}
+          {username}
         </SoftTypography>
         <SoftTypography variant="caption" color="text">
-          {description}
+          {role}
         </SoftTypography>
       </SoftBox>
-      <SoftBox ml="auto">
+      {/* <SoftBox ml="auto">
         {action.type === "internal" ? (
           <SoftButton component={Link} to={action.route} variant="text" color="info">
             {action.label}
@@ -48,7 +47,7 @@ function ProfilesList({ title, profiles }) {
             {action.label}
           </SoftButton>
         )}
-      </SoftBox>
+      </SoftBox> */}
     </SoftBox>
   ));
 
