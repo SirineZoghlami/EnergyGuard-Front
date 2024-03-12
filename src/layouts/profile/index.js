@@ -9,6 +9,7 @@ import ProfileInfoCard from "examples/Cards/InfoCards/ProfileInfoCard";
 import ProfilesList from "examples/Lists/ProfilesList";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import SoftButton from "components/SoftButton/index.js";
+import SoftInput from "components/SoftInput/index.js";
 
 // Overview page components
 import Header from "layouts/profile/components/Header";
@@ -44,8 +45,8 @@ function Overview() {
             
               title="Profile Information"
               info={{
-                username: currentUser.others.username,
-                role: currentUser.others.role,
+                username: currentUser?.others.username,
+                role: currentUser?.others.role,
               }}
               description="CofiCab Change Maker"
               social={[
@@ -63,6 +64,12 @@ function Overview() {
      
           </Grid>
           <Grid item xs={12} xl={4}>
+          <SoftBox pr={1}>
+              <SoftInput
+                placeholder="Type here..."
+                icon={{ component: "search", direction: "left" }}
+              />
+            </SoftBox>
             <ProfilesList title="Users List" profiles={usersList} />
           </Grid>
         </Grid>

@@ -30,7 +30,7 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Tables",
+    name: "tables",
     key: "tables",
     route: "/tables",
     icon: <Office size="12px" />,
@@ -55,15 +55,15 @@ const routes = [
   //   component: <VirtualReality />,
   //   noCollapse: true,
   // },
-  {
-    type: "collapse",
-    name: "RTL",
-    key: "rtl",
-    route: "/rtl",
-    icon: <Settings size="12px" />,
-    component: <RTL />,
-    noCollapse: true,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "RTL",
+  //   key: "rtl",
+  //   route: "/rtl",
+  //   icon: <Settings size="12px" />,
+  //   component: <RTL />,
+  //   noCollapse: true,
+  // },
   { type: "title", title: "Account Pages", key: "account-pages" },
   {
     type: "collapse",

@@ -134,12 +134,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
         </SoftBox>
         {isMini ? null : (
           <SoftBox sx={(theme) => navbarRow(theme, { isMini })}>
-            <SoftBox pr={1}>
-              <SoftInput
-                placeholder="Type here..."
-                icon={{ component: "search", direction: "left" }}
-              />
-            </SoftBox>
+            
            
             <SoftBox color={light ? "white" : "inherit"}>
             {currentUser?null:<Link to="/authentication/sign-in">
@@ -161,7 +156,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 </IconButton>
               </Link>}
               {currentUser ? (
-  <Link to="/authentication/sign-in">
+          <Link to="/authentication/sign-in">
     <IconButton sx={navbarIconButton} size="small" onClick={handlesubmit}>
       <Icon
         sx={({ palette: { dark, white } }) => ({

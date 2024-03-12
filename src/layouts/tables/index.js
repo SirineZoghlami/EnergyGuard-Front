@@ -8,14 +8,25 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import Table from "examples/Tables/Table";
+import { useState,useEffect } from "react";
+import { fetchUsers } from "api/userApi";
 
 // Data
 import authorsTableData from "layouts/tables/data/authorsTableData";
-import projectsTableData from "layouts/tables/data/projectsTableData";
+// import projectsTableData from "layouts/tables/data/projectsTableData";
 
 function Tables() {
+  const [usersList, setUsersList] = useState([]);
+  useEffect(() => {
+    async function getUsers()  {
+      const usersList = await fetchUsers();
+      setUsersList(usersList.data);
+    };
+    getUsers()
+  },[]);
+  console.log(usersList);
   const { columns, rows } = authorsTableData;
-  const { columns: prCols, rows: prRows } = projectsTableData;
+  // const { columns: prCols, rows: prRows } = projectsTableData;
 
   return (
     <DashboardLayout>
@@ -24,7 +35,7 @@ function Tables() {
         <SoftBox mb={3}>
           <Card>
             <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-              <SoftTypography variant="h6">Authors table</SoftTypography>
+              <SoftTypography variant="h6">Authors</SoftTypography>
             </SoftBox>
             <SoftBox
               sx={{
@@ -40,7 +51,7 @@ function Tables() {
             </SoftBox>
           </Card>
         </SoftBox>
-        <Card>
+        {/* <Card>
           <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
             <SoftTypography variant="h6">Projects table</SoftTypography>
           </SoftBox>
@@ -56,7 +67,7 @@ function Tables() {
           >
             <Table columns={prCols} rows={prRows} />
           </SoftBox>
-        </Card>
+        </Card> */}
       </SoftBox>
       <Footer />
     </DashboardLayout>
