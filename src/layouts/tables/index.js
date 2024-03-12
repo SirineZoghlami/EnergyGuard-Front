@@ -16,15 +16,15 @@ import authorsTableData from "layouts/tables/data/authorsTableData";
 // import projectsTableData from "layouts/tables/data/projectsTableData";
 
 function Tables() {
-  const [usersList, setUsersList] = useState([]);
-  useEffect(() => {
-    async function getUsers()  {
-      const usersList = await fetchUsers();
-      setUsersList(usersList.data);
-    };
-    getUsers()
-  },[]);
-  console.log(usersList);
+  // const [usersList, setUsersList] = useState([]);
+  // useEffect(() => {
+  //   async function getUsers()  {
+  //     const usersList = await fetchUsers();
+  //     setUsersList(usersList.data);
+  //   };
+  //   getUsers()
+  // },[]);
+  // console.log(usersList);
   const { columns, rows } = authorsTableData;
   // const { columns: prCols, rows: prRows } = projectsTableData;
 

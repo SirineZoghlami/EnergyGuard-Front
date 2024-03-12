@@ -7,6 +7,7 @@ import RTL from "layouts/rtl";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
+import EditUserProfile from "layouts/profile/components/Edituser/editUserProfile";
 
 
 import Shop from "examples/Icons/Shop";
@@ -73,7 +74,17 @@ const routes = [
     icon: <CustomerSupport size="12px" />,
     component: <Profile />,
     noCollapse: true,
+    children: [
+      {
+        type: "item",
+        name: "Edit Profile",
+        key: "edit-profile",
+        route: "/profile/edit",
+        component: <EditUserProfile />, // This will render EditUserProfile component
+      },
+    ],
   },
+  
   {
     type: "collapse",
     name: "Sign In",
