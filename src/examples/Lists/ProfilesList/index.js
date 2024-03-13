@@ -1,3 +1,4 @@
+// ProfilesList.js
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Card from "@mui/material/Card";
@@ -9,14 +10,19 @@ import EditUserProfile from "../../../layouts/profile/components/Edituser/editUs
 import adminAvatar from "../../../assets/images/admin-user-icon-3.jpg";
 
 function ProfilesList({ title, profiles }) {
-  const [editingUserId, setEditingUserId] = useState(null); // Store the ID of the user being edited
+  const [editingUserId, setEditingUserId] = useState(null); 
+  const [username,setUsername] = useState();
+  const [role,setRole] = useState();
 
-  const handleEditUser = (userId) => {
-    setEditingUserId(userId); // Set the user ID for editing
+
+  const handleEditUser = (userId,username,role) => {
+    setEditingUserId(userId); 
+    setUsername(username);
+    setRole(role);
   };
 
   const handleCancelEdit = () => {
-    setEditingUserId(null); // Clear the editing user ID
+    setEditingUserId(null); 
   };
 
   return (
@@ -41,7 +47,7 @@ function ProfilesList({ title, profiles }) {
                   {role}
                 </SoftTypography>
               </SoftBox>
-              <SoftButton type="button" variant="gradient" color="info" onClick={() => handleEditUser(_id)}>
+              <SoftButton type="button" variant="gradient" color="info" onClick={() => handleEditUser(_id,username,role)}>
                 Edit User
               </SoftButton>
             </SoftBox>
@@ -50,7 +56,9 @@ function ProfilesList({ title, profiles }) {
       </SoftBox>
       {editingUserId && (
         <EditUserProfile
-          userId={editingUserId} // Pass the user ID to EditUserProfile
+          userId={editingUserId}
+          username={username}
+          role={role}
           onCancel={handleCancelEdit}
         />
       )}

@@ -1,5 +1,3 @@
-
-
 import { useState } from "react";
 
 // @mui material components
@@ -10,8 +8,6 @@ import { Grid } from "@mui/material";
 import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
 import typography from "assets/theme/base/typography";
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
-
-
 
 function PlatformSettings() {
   const { size } = typography;
@@ -26,29 +22,41 @@ function PlatformSettings() {
         </SoftTypography>
       </SoftBox>
       <SoftBox pt={1.5} pb={2} px={2} lineHeight={1.25}>
-        
-        <Grid item xs={12} lg={5}>
-              <ReportsBarChart
-                title="Machine 1"
-                description={
-                  <>
-                    (<strong>+23%</strong>) than last week
-                  </>
-                }
-                chart={chart}
-              />
-            </Grid>
-            <Grid item xs={12} lg={5}>
-              <ReportsBarChart
-                title="Machine 2"
-                description={
-                  <>
-                    (<strong>+2.5%</strong>) than last week
-                  </>
-                }
-                chart={chart}
-              />
-            </Grid>
+        <Grid container spacing={2}> {/* Add a container around the Grid items */}
+          <Grid item xs={12} lg={12}> {/* Set xs and lg to 12 to occupy full width */}
+            <ReportsBarChart
+              title="Machine 1"
+              description={
+                <>
+                  (<strong>+23%</strong>) than last week
+                </>
+              }
+              chart={chart}
+            />
+          </Grid>
+          <Grid item xs={12} lg={12}> {/* Set xs and lg to 12 to occupy full width */}
+            <ReportsBarChart
+              title="Machine 2"
+              description={
+                <>
+                  (<strong>+2.5%</strong>) than last week
+                </>
+              }
+              chart={chart}
+            />
+          </Grid>
+          <Grid item xs={12} lg={12}> {/* Set xs and lg to 12 to occupy full width */}
+            <ReportsBarChart
+              title="Machine 3"
+              description={
+                <>
+                  (<strong>-2.1%</strong>) than last week
+                </>
+              }
+              chart={chart}
+            />
+          </Grid>
+        </Grid>
       </SoftBox>
     </Card>
   );

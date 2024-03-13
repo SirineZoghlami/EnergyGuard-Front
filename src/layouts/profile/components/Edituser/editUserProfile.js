@@ -1,22 +1,23 @@
+// EditUserProfile.js
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsers, updateUser } from "../../../../actions/users.js";
+import { getUser, updateUser } from "../../../../actions/users.js";
 import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
 import SoftInput from "components/SoftInput";
 import SoftButton from "components/SoftButton";
 
-function EditUserProfile({ userId, onCancel }) {
-  const [editedUsername, setEditedUsername] = useState("");
-  const [editedRole, setEditedRole] = useState("");
+function EditUserProfile({ userId, onCancel,username,role }) {
+  const [editedUsername, setEditedUsername] = useState(username);
+  const [editedRole, setEditedRole] = useState(role);
   const rolesEnum = ['Administrator', 'Energy Manager', 'Operator'];
   const dispatch = useDispatch();
   const user = useSelector(state => state.users.user);
 
   useEffect(() => {
     if (userId) {
-      dispatch(getUsers(userId));
+      dispatch(getUser(userId));
     }
   }, [dispatch, userId]);
 
@@ -49,8 +50,8 @@ function EditUserProfile({ userId, onCancel }) {
             onChange={(e) => setEditedRole(e.target.value)}
           >
             <option value="">Select User Role</option>
-            {rolesEnum.map((role, index) => ( // Changed variable name from editedRole to role
-              <option key={index} value={role}> {/* Changed variable name from editedRole to role */}
+            {rolesEnum.map((role, index) => ( 
+              <option key={index} value={role}> 
                 {role}
               </option>
             ))}
@@ -64,8 +65,8 @@ function EditUserProfile({ userId, onCancel }) {
 }
 
 EditUserProfile.propTypes = {
-  userId: PropTypes.string.isRequired,
-  onCancel: PropTypes.func.isRequired,
+  userId: PropTypes.string,
+  onCancel: PropTypes.func,
 };
 
 export default EditUserProfile;
