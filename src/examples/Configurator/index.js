@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 
-// @mui material components
 import Divider from "@mui/material/Divider";
 import Switch from "@mui/material/Switch";
 import IconButton from "@mui/material/IconButton";

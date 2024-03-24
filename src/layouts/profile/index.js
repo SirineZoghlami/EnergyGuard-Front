@@ -64,12 +64,6 @@ function Overview() {
      
           </Grid>
           <Grid item xs={12} xl={4}>
-          <SoftBox pr={1}>
-              <SoftInput
-                placeholder="Type here..."
-                icon={{ component: "search", direction: "left" }}
-              />
-            </SoftBox>
             <ProfilesList title="Users List" profiles={usersList} />
           </Grid>
         </Grid>
