@@ -33,8 +33,8 @@ function ProfilesList({ title, profiles }) {
   };
 
   // Calculate start and end index of users to display based on current page
-  const startIndex = (currentPage - 1) * 10;
-  const endIndex = Math.min(startIndex + 10, profiles.length);
+  const startIndex = (currentPage - 1) * 5;
+  const endIndex = Math.min(startIndex + 5, profiles.length);
 
   // Filtered and paginated users
   const paginatedUsers = profiles
@@ -81,7 +81,7 @@ function ProfilesList({ title, profiles }) {
           ))}
         </SoftBox>
         <Pagination
-          count={Math.ceil(profiles.length / 10)} // Total number of pages
+          count={Math.ceil(profiles.length / 5)} // Total number of pages
           page={currentPage}
           onChange={handlePageChange}
         />
