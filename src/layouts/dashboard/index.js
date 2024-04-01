@@ -1,6 +1,7 @@
 
 import Grid from "@mui/material/Grid";
 import Icon from "@mui/material/Icon";
+import GradientLineChart from "examples/Charts/LineCharts/GradientLineChart";
 
 
 import SoftBox from "components/SoftBox";
@@ -11,7 +12,6 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import MiniStatisticsCard from "examples/Cards/StatisticsCards/MiniStatisticsCard";
 import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
-import GradientLineChart from "examples/Charts/LineCharts/GradientLineChart";
 
 import typography from "assets/theme/base/typography";
 
@@ -27,6 +27,7 @@ import gradientLineChartData from "layouts/dashboard/data/gradientLineChartData"
 
 function Dashboard() {
   const { size } = typography;
+  
   const { chart, items } = reportsBarChartData;
 
   return (

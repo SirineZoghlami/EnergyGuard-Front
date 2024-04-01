@@ -8,8 +8,7 @@ import Footer from "examples/Footer";
 import ProfileInfoCard from "examples/Cards/InfoCards/ProfileInfoCard";
 import ProfilesList from "examples/Lists/ProfilesList";
 import FacebookIcon from "@mui/icons-material/Facebook";
-import SoftButton from "components/SoftButton/index.js";
-import SoftInput from "components/SoftInput/index.js";
+
 
 // Overview page components
 import Header from "layouts/profile/components/Header";

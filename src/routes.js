@@ -1,14 +1,13 @@
+import React, { Suspense } from "react";
 
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
 import VirtualReality from "layouts/virtual-reality";
 import RTL from "layouts/rtl";
-import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 import EditUserProfile from "layouts/profile/components/Edituser/editUserProfile";
-
 
 import Shop from "examples/Icons/Shop";
 import Office from "examples/Icons/Office";
@@ -18,6 +17,8 @@ import SpaceShip from "examples/Icons/SpaceShip";
 import CustomerSupport from "examples/Icons/CustomerSupport";
 import CreditCard from "examples/Icons/CreditCard";
 import Cube from "examples/Icons/Cube";
+
+const LazyProfile = React.lazy(() => import("layouts/profile"));
 
 const routes = [
   {
@@ -72,7 +73,11 @@ const routes = [
     key: "profile",
     route: "/profile",
     icon: <CustomerSupport size="12px" />,
-    component: <Profile />,
+    component: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <LazyProfile />
+      </Suspense>
+    ),
     noCollapse: true,
     children: [
       {
@@ -80,7 +85,7 @@ const routes = [
         name: "Edit Profile",
         key: "edit-profile",
         route: "/profile/edit",
-        component: <EditUserProfile />, // This will render EditUserProfile component
+        component: <EditUserProfile />, 
       },
     ],
   },
