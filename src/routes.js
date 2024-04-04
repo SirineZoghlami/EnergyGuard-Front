@@ -17,6 +17,9 @@ import CustomerSupport from "examples/Icons/CustomerSupport";
 import CreditCard from "examples/Icons/CreditCard";
 import Cube from "examples/Icons/Cube";
 import MachineList from "components/Machine/MachineList";
+import AddMachine from "components/Machine/AddMachine";
+import ArmoireList from "components/Armoire/ArmoireList";
+import AddArmoire from "components/Armoire/AddArmoire";
 
 const routes = [
   {
@@ -64,6 +67,8 @@ const routes = [
     component: <RTL />,
     noCollapse: true,
   },
+  { type: "title", title: "Machines", key: "machines-pages" },
+
   {
     type: "collapse",
     name: "Machines",
@@ -71,8 +76,41 @@ const routes = [
     route: "/machines",
     icon: <Shop size="12px" />,
     component: <MachineList />,
+    noCollapse: false,
+  },
+   // Add Machine route (conditionally rendered)
+   {
+    type: "collapse",
+    name: "Ajouter machine",
+    key: "add-machine",
+    route: "/machines/add",
+    icon: <Shop size="12px" />,
+    component: <AddMachine />,
+    noCollapse: true,
+    hidden: true, // Flag to indicate that this route should not appear in the navigation menu
+  },
+  { type: "title", title: "Armoires", key: "armoire-pages" },
+   // Add Machine route (conditionally rendered)
+   {
+    type: "collapse",
+    name: "Armoires",
+    key: "list-armoire",
+    route: "/armoire/list",
+    icon: <Shop size="12px" />,
+    component: <ArmoireList />,
     noCollapse: true,
   },
+  {
+    type: "collapse",
+    name: "Ajouter armoire",
+    key: "add-armoire",
+    route: "/armoires/add",
+    icon: <Shop size="12px" />,
+    component: <AddArmoire />,
+    noCollapse: true,
+    hidden: true, // Flag to indicate that this route should not appear in the navigation menu
+  }, 
+
   { type: "title", title: "Account Pages", key: "account-pages" },
   {
     type: "collapse",
@@ -101,6 +139,8 @@ const routes = [
     component: <SignUp />,
     noCollapse: true,
   },
+   
+    
 ];
 
 export default routes;

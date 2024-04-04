@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Card, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography, Snackbar } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Typography,
+  Snackbar,
+} from '@mui/material';
 import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import axios from 'axios';
@@ -7,86 +18,101 @@ import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
 import DashboardNavbar from 'examples/Navbars/DashboardNavbar';
 import Footer from 'examples/Footer';
 
-const MachineList = () => {
-  const [machines, setMachines] = useState([]);
+const ArmoireList = () => {
+  const [armoires, setArmoires] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [selectedMachine, setSelectedMachine] = useState(null);
+  const [selectedArmoire, setSelectedArmoire] = useState(null);
   const [formData, setFormData] = useState({
-    production: '',
-    interfaceweb: '',
-    saisie_prodautomatique: '',
-    objectif_khw_t: '',
-    energie_nominal: '5',
-    indicateur_cible_kwh_t: '',
-    indicateur_cible_kwh_km: '',
-    adressip: '',
+    tgbt_id: '',
     nom: '',
-    isactive: '',
     dossier: '',
-    dossierprod: '',
+    isactive: '',
+    isprod: false,
+    adressip: '',
+    objectif_khw_t: '',
+    interfaceweb: false,
+    armoireprec: '',
+    zone_id: '',
   });
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
   useEffect(() => {
-    fetchMachines();
+    fetchArmoires();
   }, []);
 
-  const fetchMachines = async () => {
+  const fetchArmoires = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/machines');
-      setMachines(response.data.map(({ _id, ...rest }) => ({ _id, ...rest })));
+      const response = await axios.get('http://localhost:5000/api/armoires');
+      setArmoires(response.data);
     } catch (error) {
-      console.error('Erreur lors de la récupération des machines :', error);
-      setMachines([]);
+      console.error('Erreur lors de la récupération des armoires :', error);
+      setArmoires([]);
     }
   };
 
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm('Êtes-vous sûr de vouloir supprimer cette machine ?');
-    if (confirmDelete) {
-      try {
-        await axios.delete(`http://localhost:5000/api/machines/${id}`);
-        setMachines(machines.filter(machine => machine._id !== id));
-        setSnackbarMessage('Machine supprimée avec succès.');
-        setSnackbarOpen(true);
-      } catch (error) {
-        console.error('Erreur lors de la suppression de la machine :', error);
-      }
-    }
-  };
-
-  const handleModify = (machine) => {
-    setSelectedMachine(machine);
-    setFormData(machine);
+  const handleModify = (armoire) => {
+    setSelectedArmoire(armoire);
+    setFormData(armoire);
     setOpenDialog(true);
   };
 
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-    setSelectedMachine(null);
-    setFormData({ ...formData, energie_nominal: '5' });
+  const handleDelete = async (armoireId) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/armoires/${armoireId}`);
+      setArmoires(armoires.filter((armoire) => armoire._id !== armoireId));
+      setSnackbarMessage('Armoire supprimée avec succès.');
+      setSnackbarOpen(true);
+    } catch (error) {
+      console.error('Erreur lors de la suppression de l\'armoire :', error);
+    }
   };
 
   const handleFormChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({ ...prevState, [name]: value }));
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleFormSubmit = async () => {
-    try {
-      await axios.put(`http://localhost:5000/api/machines/${selectedMachine._id}`, formData);
-      handleCloseDialog();
-      fetchMachines();
-      setSnackbarMessage('Machine mise à jour avec succès.');
-      setSnackbarOpen(true);
-    } catch (error) {
-      console.error('Erreur lors de la mise à jour de la machine :', error);
-    }
+  const handleCloseDialog = () => {
+    setSelectedArmoire(null);
+    setFormData({
+      tgbt_id: '',
+      nom: '',
+      dossier: '',
+      isactive: '',
+      isprod: false,
+      adressip: '',
+      objectif_khw_t: '',
+      interfaceweb: false,
+      armoireprec: '',
+      zone_id: '',
+    });
+    setOpenDialog(false);
   };
 
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
+  };
+
+  const handleFormSubmit = async () => {
+    try {
+      if (selectedArmoire) {
+        await axios.put(`http://localhost:5000/api/armoires/${selectedArmoire._id}`, formData);
+        setArmoires(
+          armoires.map((armoire) =>
+            armoire._id === selectedArmoire._id ? { ...armoire, ...formData } : armoire
+          )
+        );
+        setSnackbarMessage('Armoire modifiée avec succès.');
+      } else {
+        const response = await axios.post('http://localhost:5000/api/armoires', formData);
+        setArmoires([...armoires, response.data]);
+        setSnackbarMessage('Armoire ajoutée avec succès.');
+      }
+      setSnackbarOpen(true);
+      handleCloseDialog();
+    } catch (error) {
+      console.error('Erreur lors de la soumission du formulaire :', error);
+    }
   };
 
   return (
@@ -94,16 +120,16 @@ const MachineList = () => {
       <DashboardNavbar />
       <Box py={3}>
         <Box mb={3}>
-          <Link to="/machines/add" style={{ textDecoration: 'none', marginBottom: '25px' }}>
+          <Link to="/armoires/add" style={{ textDecoration: 'none', marginBottom: '25px' }}>
             <Button variant="contained" startIcon={<AddIcon />}>
-              Ajouter une machine
+              Ajouter une armoire
             </Button>
           </Link>
-          {machines.map(machine => (
-            <Card key={machine._id} sx={{ marginBottom: '10px', borderRadius: '10px' }}>
+          {armoires.map((armoire) => (
+            <Card key={armoire._id} sx={{ marginBottom: '10px', borderRadius: '10px' }}>
               <Box sx={{ display: 'flex', flexDirection: 'column', p: 3 }}>
                 <ul style={{ listStyleType: 'none', padding: 0 }}>
-                  {Object.entries(machine)
+                  {Object.entries(armoire)
                     .filter(([key]) => key !== '__v')
                     .map(([key, value], index) => (
                       <li key={index} style={{ marginBottom: '5px' }}>
@@ -114,14 +140,14 @@ const MachineList = () => {
                 <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
                   <Button
                     variant="contained"
-                    onClick={() => handleModify(machine)}
+                    onClick={() => handleModify(armoire)}
                     sx={{ marginRight: '20px', backgroundColor: '#1976d2', color: '#fff' }}
                   >
                     Modifier
                   </Button>
                   <Button
                     variant="contained"
-                    onClick={() => handleDelete(machine._id)}
+                    onClick={() => handleDelete(armoire._id)}
                     sx={{ backgroundColor: '#f44336', color: '#fff' }}
                   >
                     Supprimer
@@ -171,4 +197,4 @@ const MachineList = () => {
   );
 };
 
-export default MachineList;
+export default ArmoireList;
