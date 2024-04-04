@@ -40,6 +40,8 @@ export const deleteUser = (id) => async (dispatch) => {
     try {
        await api.deleteUser(id);
        dispatch({ type: 'DELETE', payload: id});
+       // Navigate to the sign-in page after successfully deleting the user
+       navigateTo('/authentication/sign-in');
     } catch (error) {
         console.log(error);
     }

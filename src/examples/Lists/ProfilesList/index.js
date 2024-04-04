@@ -9,6 +9,8 @@ import EditUserProfile from "../../../layouts/profile/components/Edituser/editUs
 import adminAvatar from "../../../assets/images/admin-user-icon-3.jpg";
 import SoftInput from "components/SoftInput";
 import Pagination from "@mui/material/Pagination";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 function ProfilesList({ title, profiles }) {
   const [editingUserId, setEditingUserId] = useState(null);
@@ -16,6 +18,7 @@ function ProfilesList({ title, profiles }) {
   const [role, setRole] = useState();
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedRole, setSelectedRole] = useState(""); // State for selected role
 
   const handleEditUser = (userId, username, role) => {
     setEditingUserId(userId);
@@ -32,6 +35,11 @@ function ProfilesList({ title, profiles }) {
     setCurrentPage(page);
   };
 
+  // Function to handle role selection change
+  const handleRoleChange = (event) => {
+    setSelectedRole(event.target.value);
+  };
+
   // Calculate start and end index of users to display based on current page
   const startIndex = (currentPage - 1) * 5;
   const endIndex = Math.min(startIndex + 5, profiles.length);
@@ -39,7 +47,8 @@ function ProfilesList({ title, profiles }) {
   // Filtered and paginated users
   const paginatedUsers = profiles
     .filter((profile) =>
-      profile.username.toLowerCase().includes(searchQuery.toLowerCase())
+      profile.username.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      (selectedRole === "" || profile.role === selectedRole) // Include role filtering
     )
     .slice(startIndex, endIndex);
 
@@ -51,12 +60,24 @@ function ProfilesList({ title, profiles }) {
         </SoftTypography>
       </SoftBox>
       <SoftBox p={2}>
-        <SoftBox pr={1}>
+        <SoftBox pb={1} display="flex" alignItems="center">
           <SoftInput
             placeholder="Search"
             icon={{ component: "search", direction: "left" }}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
+          <Select
+            value={selectedRole}
+            onChange={handleRoleChange}
+            variant="outlined"
+            displayEmpty
+            inputProps={{ 'aria-label': 'Without label' }}
+          >
+            <MenuItem value="">All Roles</MenuItem>
+            <MenuItem value="Administrator">Administrator</MenuItem>
+            <MenuItem value="Energy Manager">Energy Manager</MenuItem>
+            <MenuItem value="Operator">Operator</MenuItem>
+          </Select>
         </SoftBox>
         <SoftBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
           {paginatedUsers.map(({ _id, username, role }) => (
