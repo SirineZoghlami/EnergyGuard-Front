@@ -23,7 +23,7 @@ function BuildByDevelopers() {
                 </SoftTypography>
               </SoftBox>
               <SoftTypography variant="h5" fontWeight="bold" gutterBottom>
-                Energy Guard
+                Energy Guard 
               </SoftTypography>
               <SoftBox mb={6}>
                 <SoftTypography variant="body2" color="text" fontWeight="bold">

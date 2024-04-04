@@ -79,6 +79,7 @@ function Header() {
         }}
       >
         <Grid container spacing={3} alignItems="center">
+        
           <Grid item>
             <SoftAvatar src={avatar} alt="profile-image" variant="rounded" size="xl" shadow="sm" />
           </Grid>
@@ -90,8 +91,16 @@ function Header() {
               <SoftTypography variant="button" color="text" fontWeight="medium">
                 {currentUser?.others.role}
               </SoftTypography>
-              <button
+              
+            </SoftBox>
+           
+          </Grid>
+          
+        </Grid>
+        <SoftBox>
+            <button
                 style={{
+                  alignSelf: "flex-end",
                   backgroundColor: "transparent",
                   border: "2px solid red",
                   color: "red",
@@ -108,8 +117,6 @@ function Header() {
                 Delete Account
               </button>
             </SoftBox>
-          </Grid>
-        </Grid>
       </Card>
     </SoftBox>
   );
