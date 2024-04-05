@@ -11,13 +11,14 @@ import {
   Typography,
   Snackbar,
   IconButton,
+  MenuItem,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete'; // Import EditIcon and DeleteIcon
+import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
 import DashboardNavbar from 'examples/Navbars/DashboardNavbar';
@@ -25,7 +26,7 @@ import Footer from 'examples/Footer';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 
-const ITEMS_PER_PAGE = 10; // Number of items per page
+const ITEMS_PER_PAGE = 10;
 
 const ArmoireList = () => {
   const [armoires, setArmoires] = useState([]);
@@ -45,23 +46,38 @@ const ArmoireList = () => {
   });
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [currentPage, setCurrentPage] = useState(1); // Current page number
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sortField, setSortField] = useState('nom');
+  const [sortOrder, setSortOrder] = useState('asc');
 
   useEffect(() => {
     fetchArmoires();
-  }, [currentPage]); // Fetch armoires whenever currentPage changes
+  }, [currentPage, sortField, sortOrder]);
 
   const fetchArmoires = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/armoires?page=${currentPage}&limit=${ITEMS_PER_PAGE}`);
-      setArmoires(response.data);
+      const response = await axios.get(`http://localhost:5000/api/armoires`, {
+        params: {
+          page: currentPage,
+          limit: ITEMS_PER_PAGE,
+          sortField,
+          sortOrder,
+        }
+      });
+
+      // Parse ID as number before setting the state
+      const sortedArmoires = response.data.map(armoire => ({
+        ...armoire,
+        _id: parseInt(armoire._id)
+      }));
+
+      setArmoires(sortedArmoires);
     } catch (error) {
       console.error('Erreur lors de la récupération des armoires :', error);
       setArmoires([]);
     }
   };
 
-  // Add pagination buttons to change the current page
   const handleNextPage = () => {
     setCurrentPage(currentPage + 1);
   };
@@ -147,61 +163,86 @@ const ArmoireList = () => {
     <DashboardLayout>
       <DashboardNavbar />
       <Box py={3}>
-        <Box mb={3}>
-          <Link to="/armoires/add" style={{ textDecoration: 'none', marginBottom: '25px' }}>
+        <Box mb={3} sx={{ display: 'flex', alignItems: 'center' }}>
+          <Link to="/armoires/add" style={{ textDecoration: 'none', marginRight: '10px' }}>
             <Button variant="contained" startIcon={<AddIcon />}>
               Ajouter une armoire
             </Button>
           </Link>
-          <Button variant="contained" onClick={handleDownloadExcel} style={{ marginLeft: '10px' }}>
+          <Button variant="contained" onClick={handleDownloadExcel} style={{ marginRight: '10px' }}>
             Télécharger Excel
           </Button>
-          {armoires.map((armoire) => (
-            <Card key={armoire._id} sx={{ marginBottom: '10px', borderRadius: '10px' }}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', p: 3 }}>
-                <ul style={{ listStyleType: 'none', padding: 0 }}>
-                  {Object.entries(armoire)
-                    .filter(([key]) => key !== '__v')
-                    .map(([key, value], index) => (
-                      <li key={index} style={{ marginBottom: '5px' }}>
-                        <strong>{key}:</strong> {value}
-                      </li>
-                    ))}
-                </ul>
-                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-                  <IconButton
-                    onClick={() => handleModify(armoire)}
-                    sx={{ marginRight: '20px', backgroundColor: '#1976d2', color: '#fff' }}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton
-                    onClick={() => handleDelete(armoire._id)}
-                    sx={{ backgroundColor: '#f44336', color: '#fff' }}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </Box>
-              </Box>
-            </Card>
-          ))}
-          <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-            <IconButton
-              onClick={handlePrevPage}
-              disabled={currentPage === 1}
+          <Box>
+            <Typography variant="subtitle1" component="span" sx={{ marginRight: '10px' }}>
+              Trier par:
+            </Typography>
+            <TextField
+              select
+              value={sortField}
+              onChange={(e) => setSortField(e.target.value)}
+              size="small"
               sx={{ marginRight: '10px' }}
             >
-              <ArrowBackIcon />
-            </IconButton>
-            <Typography variant="subtitle1">{currentPage}</Typography>
-            <IconButton
-              onClick={handleNextPage}
-              disabled={armoires.length < ITEMS_PER_PAGE}
-              sx={{ marginLeft: '10px' }}
+              <MenuItem value="nom">Nom</MenuItem>
+              <MenuItem value="tgbt_id">ID</MenuItem>
+              {/* Add more fields as needed */}
+            </TextField>
+            <TextField
+              select
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+              size="small"
             >
-              <ArrowForwardIcon />
-            </IconButton>
+              <MenuItem value="asc">Croissant</MenuItem>
+              <MenuItem value="desc">Décroissant</MenuItem>
+            </TextField>
           </Box>
+        </Box>
+        {armoires.map((armoire) => (
+          <Card key={armoire._id} sx={{ marginBottom: '10px', borderRadius: '10px' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', p: 3 }}>
+              <ul style={{ listStyleType: 'none', padding: 0 }}>
+                {Object.entries(armoire)
+                  .filter(([key]) => key !== '__v')
+                  .map(([key, value], index) => (
+                    <li key={index} style={{ marginBottom: '5px' }}>
+                      <strong>{key}:</strong> {value}
+                    </li>
+                  ))}
+              </ul>
+              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                <IconButton
+                  onClick={() => handleModify(armoire)}
+                  sx={{ marginRight: '20px', backgroundColor: '#1976d2', color: '#fff' }}
+                >
+                  <EditIcon />
+                </IconButton>
+                <IconButton
+                  onClick={() => handleDelete(armoire._id)}
+                  sx={{ backgroundColor: '#f44336', color: '#fff' }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
+            </Box>
+          </Card>
+        ))}
+        <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+          <IconButton
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+            sx={{ marginRight: '10px' }}
+          >
+            <ArrowBackIcon />
+          </IconButton>
+          <Typography variant="subtitle1">{currentPage}</Typography>
+          <IconButton
+            onClick={handleNextPage}
+            disabled={armoires.length < ITEMS_PER_PAGE}
+            sx={{ marginLeft: '10px' }}
+          >
+            <ArrowForwardIcon />
+          </IconButton>
         </Box>
       </Box>
       <Footer />
