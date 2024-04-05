@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Card, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography, Snackbar } from '@mui/material';
+import { Box, Button, Card, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography, Snackbar, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import axios from 'axios';
 import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
 import DashboardNavbar from 'examples/Navbars/DashboardNavbar';
 import Footer from 'examples/Footer';
-import * as XLSX from 'xlsx'; // Importing all functions and objects as XLSX
-import { saveAs } from 'file-saver';
+import { Bar, Pie, Line } from 'react-chartjs-2';
 
 const MachineList = () => {
   const [machines, setMachines] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedMachine, setSelectedMachine] = useState(null);
   const [formData, setFormData] = useState({
@@ -35,25 +36,29 @@ const MachineList = () => {
   }, []);
 
   const fetchMachines = async () => {
+    setLoading(true);
     try {
       const response = await axios.get('http://localhost:5000/api/machines');
       setMachines(response.data.map(({ _id, ...rest }) => ({ _id, ...rest })));
     } catch (error) {
-      console.error('Erreur lors de la récupération des machines :', error);
-      setMachines([]);
+      setError('Error fetching machines.');
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm('Êtes-vous sûr de vouloir supprimer cette machine ?');
+    const confirmDelete = window.confirm('Are you sure you want to delete this machine?');
     if (confirmDelete) {
       try {
         await axios.delete(`http://localhost:5000/api/machines/${id}`);
         setMachines(machines.filter(machine => machine._id !== id));
-        setSnackbarMessage('Machine supprimée avec succès.');
+        setSnackbarMessage('Machine deleted successfully.');
         setSnackbarOpen(true);
       } catch (error) {
-        console.error('Erreur lors de la suppression de la machine :', error);
+        console.error('Error deleting machine:', error);
+        setSnackbarMessage('Error deleting machine.');
+        setSnackbarOpen(true);
       }
     }
   };
@@ -80,24 +85,76 @@ const MachineList = () => {
       await axios.put(`http://localhost:5000/api/machines/${selectedMachine._id}`, formData);
       handleCloseDialog();
       fetchMachines();
-      setSnackbarMessage('Machine mise à jour avec succès.');
+      setSnackbarMessage('Machine updated successfully.');
       setSnackbarOpen(true);
     } catch (error) {
-      console.error('Erreur lors de la mise à jour de la machine :', error);
+      console.error('Error updating machine:', error);
+      setSnackbarMessage('Error updating machine.');
+      setSnackbarOpen(true);
     }
-  };
-
-  const handleDownloadExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(machines);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Machines');
-    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    const data = new Blob([excelBuffer], { type: 'application/octet-stream' });
-    saveAs(data, 'machines.xlsx');
   };
 
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
+  };
+
+  const chartData1 = {
+    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    datasets: [{
+      label: 'Armoire Energie Consumption (kWh)',
+      data: [120, 190, 30, 50, 20, 30], // Example air consumption data in kWh
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)'
+      ],
+      borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+      ],
+      borderWidth: 1
+    }]
+  };
+
+  const pieChartData = {
+    labels: ['A', 'B', 'C', 'D', 'E'],
+    datasets: [{
+      label: 'Armories',
+      data: [300, 200, 100, 150, 250], // Example air consumption data in kWh
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(54, 162, 235, 0.6)',
+        'rgba(255, 206, 86, 0.6)',
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(153, 102, 255, 0.6)'
+      ],
+      borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)'
+      ],
+      borderWidth: 1
+    }]
+  };
+
+  const lineChartData = {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    datasets: [{
+      label: 'Armoire Energie Consumption (kWh)',
+      data: [650, 590, 800, 810, 560, 550, 400], // Example air consumption data in kWh
+      fill: false,
+      borderColor: 'rgba(75, 192, 192, 1)',
+      tension: 0.1
+    }]
   };
 
   return (
@@ -107,12 +164,30 @@ const MachineList = () => {
         <Box mb={3}>
           <Link to="/machines/add" style={{ textDecoration: 'none', marginBottom: '25px' }}>
             <Button variant="contained" startIcon={<AddIcon />}>
-              Ajouter une machine
+              Add a Machine
             </Button>
           </Link>
-          <Button variant="contained" onClick={handleDownloadExcel} style={{ marginLeft: '10px' }}>
-            Télécharger Excel
-          </Button>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={4}>
+              <Box mb={3}>
+                <Typography variant="h5">Bar Chart</Typography>
+                <Bar data={chartData1} />
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={2}> {/* Adjusted md prop from 4 to 3 */}
+  <Box mb={5}>
+    <Typography variant="h6">Pie Chart</Typography>
+    <Pie data={pieChartData} />
+  </Box>
+</Grid>
+
+            <Grid item xs={12} md={4}>
+              <Box mb={3}>
+                <Typography variant="h5">Line Chart</Typography>
+                <Line data={lineChartData} />
+              </Box>
+            </Grid>
+          </Grid>
           {machines.map(machine => (
             <Card key={machine._id} sx={{ marginBottom: '10px', borderRadius: '10px' }}>
               <Box sx={{ display: 'flex', flexDirection: 'column', p: 3 }}>
@@ -131,14 +206,14 @@ const MachineList = () => {
                     onClick={() => handleModify(machine)}
                     sx={{ marginRight: '20px', backgroundColor: '#1976d2', color: '#fff' }}
                   >
-                    Modifier
+                    Modify
                   </Button>
                   <Button
                     variant="contained"
                     onClick={() => handleDelete(machine._id)}
                     sx={{ backgroundColor: '#f44336', color: '#fff' }}
                   >
-                    Supprimer
+                    Delete
                   </Button>
                 </Box>
               </Box>
@@ -148,7 +223,7 @@ const MachineList = () => {
       </Box>
       <Footer />
       <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth maxWidth="lg">
-        <DialogTitle>Modifier la machine</DialogTitle>
+        <DialogTitle>Edit Machine</DialogTitle>
         <DialogContent>
           {Object.entries(formData).map(([key, value], index) => (
             <Box key={index} sx={{ marginBottom: '30px' }}>
@@ -163,15 +238,15 @@ const MachineList = () => {
                 margin="normal"
                 variant="outlined"
                 size="small"
-                placeholder={`Entrez ${key.split('_').join(' ')}`}
+                placeholder={`Enter ${key.split('_').join(' ')}`}
               />
             </Box>
           ))}
         </DialogContent>
         <DialogActions sx={{ justifyContent: 'center' }}>
-          <Button onClick={handleCloseDialog}>Annuler</Button>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
           <Button onClick={handleFormSubmit} color="primary" variant="contained">
-            Modifier
+            Modify
           </Button>
         </DialogActions>
       </Dialog>

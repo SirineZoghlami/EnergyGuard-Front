@@ -20,6 +20,7 @@ import MachineList from "components/Machine/MachineList";
 import AddMachine from "components/Machine/AddMachine";
 import ArmoireList from "components/Armoire/ArmoireList";
 import AddArmoire from "components/Armoire/AddArmoire";
+import ArmoireStatistique from "components/Armoire/StatistiqueArmoire";
 
 const routes = [
   {
@@ -110,6 +111,17 @@ const routes = [
     noCollapse: true,
     hidden: true, // Flag to indicate that this route should not appear in the navigation menu
   }, 
+  {
+    type: "collapse",
+    name: "Statistiques",
+    key: "stat-armoire",
+    route: "/armoires/statistiques",
+    icon: <Shop size="12px" />,
+    component: <ArmoireStatistique />,
+    noCollapse: true,
+    hidden: true, // Flag to indicate that this route should not appear in the navigation menu
+  }, 
+
 
   { type: "title", title: "Account Pages", key: "account-pages" },
   {
