@@ -54,6 +54,7 @@ import SpaceShip from "examples/Icons/SpaceShip";
 import CustomerSupport from "examples/Icons/CustomerSupport";
 import CreditCard from "examples/Icons/CreditCard";
 import Cube from "examples/Icons/Cube";
+import Alarme from "components/Alarme/Alarme";
 
 const routes = [
   {
@@ -127,6 +128,15 @@ const routes = [
     route: "/authentication/sign-up",
     icon: <SpaceShip size="12px" />,
     component: <SignUp />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Alarmes & Événements",
+    key: "alarmes-events",
+    route: "/alarmes-events",
+    icon: <SpaceShip size="12px" />, // Remplacez Icon par l'icône que vous souhaitez utiliser
+    component: <Alarme />,
     noCollapse: true,
   },
 ];
