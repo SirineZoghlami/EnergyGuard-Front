@@ -7,7 +7,6 @@ import GradientLineChart from "examples/Charts/LineCharts/GradientLineChart";
 import Icon from "@mui/material/Icon";
 import typography from "assets/theme/base/typography";
 
-// Static chart data
 import gradientLineChartData from "layouts/dashboard/data/gradientLineChartData";
 
 function PlatformSettings() {
@@ -20,7 +19,7 @@ function PlatformSettings() {
   ];
 
   const [currentPage, setCurrentPage] = useState(0);
-  const [timeInterval, setTimeInterval] = useState("day"); // Default to per day
+  const [timeInterval, setTimeInterval] = useState("day"); 
 
   const handleClickNext = () => {
     setCurrentPage(prevPage => prevPage + 1);
@@ -59,24 +58,20 @@ function PlatformSettings() {
     );
   };
 
-  // Modify chart data based on the selected time interval
   const modifyChartData = (interval) => {
     switch (interval) {
       case "minute":
-        // Example labels for per minute
         return {
           ...gradientLineChartData,
           labels: ["0", "10", "20", "30", "40", "50", "60"]
         };
       case "hour":
-        // Example labels for per hour
         return {
           ...gradientLineChartData,
           labels: ["00", "03", "06", "09", "12", "15", "18", "21", "24"]
         };
       case "day":
       default:
-        // Default labels for per day
         return gradientLineChartData;
     }
   };

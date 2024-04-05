@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { deleteUser } from "../../../../actions/users"; // Import your action to delete the user
-import { useNavigate } from 'react-router-dom'; // Import useNavigate hook for navigation
+import { deleteUser } from "../../../../actions/users";
+import { useNavigate } from 'react-router-dom';
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
@@ -16,7 +16,7 @@ function Header() {
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const currentUserJson = localStorage.getItem("currentUser");
   const currentUser = currentUserJson ? JSON.parse(currentUserJson) : null;
-  const navigateTo = useNavigate(); // Use useNavigate hook for navigation
+  const navigateTo = useNavigate();
 
   useEffect(() => {
     function handleTabsOrientation() {
@@ -36,16 +36,13 @@ function Header() {
       if (currentUser && currentUser.others._id) {
         console.log("Deleting user with ID:", currentUser.others._id);
         await dispatch(deleteUser(currentUser.others._id));
-        // Successfully deleted user from the backend, now remove from local storage
         localStorage.removeItem("currentUser");
-        // Redirect to the sign-in page after deleting the user
         navigateTo('/authentication/sign-in');
       } else {
         console.error("User ID not found or invalid.");
       }
     } catch (error) {
       console.error("Failed to delete user:", error);
-      // Handle error if deletion from backend fails
     }
   };
 
@@ -78,12 +75,12 @@ function Header() {
           px: 2,
         }}
       >
-        <Grid container spacing={3} alignItems="center">
         
+        <Grid container spacing={3} alignItems="center">
           <Grid item>
             <SoftAvatar src={avatar} alt="profile-image" variant="rounded" size="xl" shadow="sm" />
           </Grid>
-          <Grid item>
+          <Grid item xs={8}>
             <SoftBox height="100%" mt={0.5} lineHeight={1}>
               <SoftTypography variant="h5" fontWeight="medium">
                 {currentUser?.others.username}
@@ -91,16 +88,14 @@ function Header() {
               <SoftTypography variant="button" color="text" fontWeight="medium">
                 {currentUser?.others.role}
               </SoftTypography>
-              
             </SoftBox>
-           
           </Grid>
-          
+         
         </Grid>
-        <SoftBox>
-            <button
+        <Grid item xs={4} style={{ textAlign: 'right' }}>
+            <SoftBox>
+              <button
                 style={{
-                  alignSelf: "flex-end",
                   backgroundColor: "transparent",
                   border: "2px solid red",
                   color: "red",
@@ -117,6 +112,8 @@ function Header() {
                 Delete Account
               </button>
             </SoftBox>
+          </Grid>
+          
       </Card>
     </SoftBox>
   );

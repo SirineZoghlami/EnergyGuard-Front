@@ -10,11 +10,9 @@ import ProfilesList from "examples/Lists/ProfilesList";
 import FacebookIcon from "@mui/icons-material/Facebook";
 
 
-// Overview page components
 import Header from "layouts/profile/components/Header";
 import PlatformSettings from "layouts/profile/components/PlatformSettings";
 
-// Data
 import { useEffect, useState } from "react";
 
 
