@@ -1,18 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Box,
-  Button,
-  Card,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-  Typography,
-  Snackbar,
-  IconButton,
-  MenuItem,
-} from '@mui/material';
+import { Box, Button, Card, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography, Snackbar, IconButton, MenuItem, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -25,6 +12,7 @@ import DashboardNavbar from 'examples/Navbars/DashboardNavbar';
 import Footer from 'examples/Footer';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import { Line, Pie, Bar } from 'react-chartjs-2';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -159,6 +147,81 @@ const ArmoireList = () => {
     saveAs(data, 'armoires.xlsx');
   };
 
+  const chartData1 = {
+    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    datasets: [{
+      label: 'Armoire Energie Consumption (kWh)',
+      data: [120, 190, 30, 50, 20, 30], // Example air consumption data in kWh
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)'
+      ],
+      borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+      ],
+      borderWidth: 1
+    }]
+  };
+
+  const pieChartData = {
+    labels: ['A', 'B', 'C', 'D', 'E'],
+    datasets: [{
+      label: 'Armories',
+      data: [300, 200, 100, 150, 250], // Example air consumption data in kWh
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(54, 162, 235, 0.6)',
+        'rgba(255, 206, 86, 0.6)',
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(153, 102, 255, 0.6)'
+      ],
+      borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)'
+      ],
+      borderWidth: 1
+    }]
+  };
+
+  const barChartData = {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    datasets: [{
+      label: 'Armoire Energie Consumption (kWh)',
+      data: [650, 590, 800, 810, 560, 550, 400], // Example air consumption data in kWh
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(54, 162, 235, 0.6)',
+        'rgba(255, 206, 86, 0.6)',
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(153, 102, 255, 0.6)',
+        'rgba(255, 159, 64, 0.6)',
+        'rgba(255, 99, 132, 0.6)'
+      ],
+      borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)',
+        'rgba(255, 99, 132, 1)'
+      ],
+      borderWidth: 1
+    }]
+  };
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -198,6 +261,24 @@ const ArmoireList = () => {
             </TextField>
           </Box>
         </Box>
+        <Grid container spacing={3} justifyContent="center">
+          <Grid item xs={12} md={4}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+              <Line data={chartData1} />
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={2}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+              <Pie data={pieChartData} />
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+              <Bar data={barChartData} />
+            </Box>
+          </Grid>
+        </Grid>
+
         {armoires.map((armoire) => (
           <Card key={armoire._id} sx={{ marginBottom: '10px', borderRadius: '10px' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', p: 3 }}>
