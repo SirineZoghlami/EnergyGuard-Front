@@ -6,6 +6,8 @@ import axios from 'axios';
 import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
 import DashboardNavbar from 'examples/Navbars/DashboardNavbar';
 import Footer from 'examples/Footer';
+import * as XLSX from 'xlsx'; // Importing all functions and objects as XLSX
+import { saveAs } from 'file-saver';
 
 const MachineList = () => {
   const [machines, setMachines] = useState([]);
@@ -85,6 +87,15 @@ const MachineList = () => {
     }
   };
 
+  const handleDownloadExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(machines);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Machines');
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const data = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(data, 'machines.xlsx');
+  };
+
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
   };
@@ -99,6 +110,9 @@ const MachineList = () => {
               Ajouter une machine
             </Button>
           </Link>
+          <Button variant="contained" onClick={handleDownloadExcel} style={{ marginLeft: '10px' }}>
+            Télécharger Excel
+          </Button>
           {machines.map(machine => (
             <Card key={machine._id} sx={{ marginBottom: '10px', borderRadius: '10px' }}>
               <Box sx={{ display: 'flex', flexDirection: 'column', p: 3 }}>

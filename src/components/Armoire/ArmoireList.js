@@ -17,6 +17,8 @@ import axios from 'axios';
 import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
 import DashboardNavbar from 'examples/Navbars/DashboardNavbar';
 import Footer from 'examples/Footer';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 const ArmoireList = () => {
   const [armoires, setArmoires] = useState([]);
@@ -115,6 +117,15 @@ const ArmoireList = () => {
     }
   };
 
+  const handleDownloadExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(armoires);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Armoires');
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const data = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(data, 'armoires.xlsx');
+  };
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -125,6 +136,9 @@ const ArmoireList = () => {
               Ajouter une armoire
             </Button>
           </Link>
+          <Button variant="contained" onClick={handleDownloadExcel} style={{ marginLeft: '10px' }}>
+            Télécharger Excel
+          </Button>
           {armoires.map((armoire) => (
             <Card key={armoire._id} sx={{ marginBottom: '10px', borderRadius: '10px' }}>
               <Box sx={{ display: 'flex', flexDirection: 'column', p: 3 }}>
@@ -160,7 +174,7 @@ const ArmoireList = () => {
       </Box>
       <Footer />
       <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth maxWidth="lg">
-        <DialogTitle>Modifier la machine</DialogTitle>
+        <DialogTitle>Modifier l'armoire</DialogTitle>
         <DialogContent>
           {Object.entries(formData).map(([key, value], index) => (
             <Box key={index} sx={{ marginBottom: '30px' }}>
