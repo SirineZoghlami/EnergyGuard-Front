@@ -10,15 +10,22 @@ import {
   TextField,
   Typography,
   Snackbar,
+  IconButton,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete'; // Import EditIcon and DeleteIcon
 import axios from 'axios';
 import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
 import DashboardNavbar from 'examples/Navbars/DashboardNavbar';
 import Footer from 'examples/Footer';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+
+const ITEMS_PER_PAGE = 10; // Number of items per page
 
 const ArmoireList = () => {
   const [armoires, setArmoires] = useState([]);
@@ -38,19 +45,29 @@ const ArmoireList = () => {
   });
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [currentPage, setCurrentPage] = useState(1); // Current page number
 
   useEffect(() => {
     fetchArmoires();
-  }, []);
+  }, [currentPage]); // Fetch armoires whenever currentPage changes
 
   const fetchArmoires = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/armoires');
+      const response = await axios.get(`http://localhost:5000/api/armoires?page=${currentPage}&limit=${ITEMS_PER_PAGE}`);
       setArmoires(response.data);
     } catch (error) {
       console.error('Erreur lors de la récupération des armoires :', error);
       setArmoires([]);
     }
+  };
+
+  // Add pagination buttons to change the current page
+  const handleNextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage(currentPage - 1);
   };
 
   const handleModify = (armoire) => {
@@ -152,24 +169,39 @@ const ArmoireList = () => {
                     ))}
                 </ul>
                 <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-                  <Button
-                    variant="contained"
+                  <IconButton
                     onClick={() => handleModify(armoire)}
                     sx={{ marginRight: '20px', backgroundColor: '#1976d2', color: '#fff' }}
                   >
-                    Modifier
-                  </Button>
-                  <Button
-                    variant="contained"
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
                     onClick={() => handleDelete(armoire._id)}
                     sx={{ backgroundColor: '#f44336', color: '#fff' }}
                   >
-                    Supprimer
-                  </Button>
+                    <DeleteIcon />
+                  </IconButton>
                 </Box>
               </Box>
             </Card>
           ))}
+          <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+            <IconButton
+              onClick={handlePrevPage}
+              disabled={currentPage === 1}
+              sx={{ marginRight: '10px' }}
+            >
+              <ArrowBackIcon />
+            </IconButton>
+            <Typography variant="subtitle1">{currentPage}</Typography>
+            <IconButton
+              onClick={handleNextPage}
+              disabled={armoires.length < ITEMS_PER_PAGE}
+              sx={{ marginLeft: '10px' }}
+            >
+              <ArrowForwardIcon />
+            </IconButton>
+          </Box>
         </Box>
       </Box>
       <Footer />
