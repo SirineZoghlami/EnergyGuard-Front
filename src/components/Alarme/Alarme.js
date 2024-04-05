@@ -215,12 +215,13 @@ return (
         }}
       />
       
-       <SoftBox mt={4} mb={1}>
-          <SoftButton onClick={handleAddAlarme} variant="gradient" color="info" fullWidth>
+       <SoftBox >
+          <SoftButton onClick={handleAddAlarme} variant="gradient" color="info" >
           Add Alarme
           </SoftButton>
+          <SoftButton onClick={envoyerEmail} variant="gradient" color="primary">Envoyer E-mail</SoftButton>
         </SoftBox>
-        <Button onClick={envoyerEmail} variant="contained" color="primary">Envoyer E-mail</Button>
+
 
       </SoftBox>
     </Card>
