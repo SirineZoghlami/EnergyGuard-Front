@@ -5,7 +5,7 @@ const gradientLineChartData = {
     {
       label: "Litres",
       color: "info",
-      data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+      data: [600, 40, 300, 220, 500, 250, 400, 230, 500],
     }
   ],
 };
