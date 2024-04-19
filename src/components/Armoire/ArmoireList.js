@@ -88,8 +88,11 @@ const ArmoireList = () => {
       setSnackbarOpen(true);
     } catch (error) {
       console.error('Erreur lors de la suppression de l\'armoire :', error);
+      setSnackbarMessage('Erreur lors de la suppression de l\'armoire.');
+      setSnackbarOpen(true);
     }
   };
+  
 
   const handleFormChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -119,10 +122,11 @@ const ArmoireList = () => {
   const handleFormSubmit = async () => {
     try {
       if (selectedArmoire) {
-        await axios.put(`http://localhost:5000/api/armoires/${selectedArmoire._id}`, formData);
+        const response = await axios.put(`http://localhost:5000/api/armoires/${selectedArmoire._id}`, formData);
+        // Update the armoire in the state with the response data
         setArmoires(
           armoires.map((armoire) =>
-            armoire._id === selectedArmoire._id ? { ...armoire, ...formData } : armoire
+            armoire._id === selectedArmoire._id ? response.data : armoire
           )
         );
         setSnackbarMessage('Armoire modifiée avec succès.');
@@ -328,7 +332,7 @@ const ArmoireList = () => {
       </Box>
       <Footer />
       <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth maxWidth="lg">
-        <DialogTitle>Modifier l'armoire</DialogTitle>
+        <DialogTitle>Modifier l&apos;armoire</DialogTitle>
         <DialogContent>
           {Object.entries(formData).map(([key, value], index) => (
             <Box key={index} sx={{ marginBottom: '30px' }}>

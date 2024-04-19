@@ -17,7 +17,7 @@ import { ref } from 'yup';
 
 
 
-const AddArmoire = () => {
+const ChatBot = () => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const [loading, setLoading] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -150,55 +150,33 @@ const AddArmoire = () => {
        )       
        }
     
-        <SoftBox boxShadow={3} borderRadius="12px" p={3} sx={{
-          backgroundImage: "linear-gradient(to right, #4ecdc4, #556270)",
-        }}>
-        <Typography variant="h5" align="center" gutterBottom>
-          Ajouter une armoire
-        </Typography>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Checkbox {...register("interfaceweb")} />
-                <SoftTypography variant="button" fontWeight="regular">
-                  Activer l&apos;interface Web
-                </SoftTypography>
-              </Grid>
-              <Grid item xs={6}>
-                <SoftInput {...register("nom", { required: true })} placeholder="Nom" />
-              </Grid>
-              <Grid item xs={6}>
-                <SoftInput {...register("dossier")} placeholder="Dossier" />
-              </Grid>
-              <Grid item xs={12}>
-                <Grid container spacing={2}>
-                  <Grid item xs={6}>
-                    <SoftInput {...register("adressip", { required: true })} placeholder="Adresse IP" />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <SoftInput {...register("objectif_khw_t")} placeholder="Objectif Khw_t" />
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item xs={12} align="center">
-                <SoftButton variant="gradient" color="info" size="large" type="submit">
-                  Ajouter
-                </SoftButton>
-              </Grid>
-            </Grid>
-          </form>
-        </SoftBox>
-        <Snackbar
-          open={snackbarOpen}
-          autoHideDuration={5000}
-          onClose={handleCloseSnackbar}
-          message={snackbarMessage}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-          sx={{ '& .MuiSnackbarContent-root': { backgroundColor: snackbarColor } }}
-        />
+<SoftBox boxShadow={3} borderRadius="12px" p={3} sx={{
+  backgroundImage: "linear-gradient(to right, #4ecdc4, #556270)",
+}}>
+  <Typography variant="h5" align="center" gutterBottom>
+    Assistant d&apos;information sur les équipements industriels
+  </Typography>
+  <form onSubmit={handleSubmit(onSubmit)}>
+    <Grid container spacing={2} justify="center">
+      <Grid item xs={8}>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <SoftInput {...register("nom", { required: true })} placeholder="Besoin de renseignements sur un équipements industriels ? Tapez votre demande ici." />
+        </div>
+      </Grid>
+      <Grid item xs={12} align="center">
+        <SoftButton variant="gradient" color="info" size="large" type="submit">
+          Envoyer
+        </SoftButton>
+      </Grid>
+    </Grid>
+  </form>
+</SoftBox>
+
+
+        
       </Box>
     </DashboardLayout>
   );
 };
 
-export default AddArmoire;
+export default ChatBot;

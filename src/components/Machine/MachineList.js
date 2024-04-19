@@ -175,13 +175,12 @@ const MachineList = () => {
               </Box>
             </Grid>
             <Grid item xs={12} md={2}> {/* Adjusted md prop from 4 to 3 */}
-  <Box mb={5}>
-    <Typography variant="h6">Pie Chart</Typography>
-    <Pie data={pieChartData} />
-  </Box>
-</Grid>
-
-            <Grid item xs={12} md={4}>
+              <Box mb={5}>
+                <Typography variant="h6">Pie Chart</Typography>
+                <Pie data={pieChartData} />
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={4}> {/* Adjusted md prop from 4 to 3 */}
               <Box mb={3}>
                 <Typography variant="h5">Line Chart</Typography>
                 <Line data={lineChartData} />

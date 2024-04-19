@@ -1,17 +1,11 @@
 {
-  "name": "soft-ui-dashboard-react",
+  "name": "energy-guard",
   "version": "4.0.1",
-  "author": "Creative Tim",
-  "license": "SEE LICENSE IN <https://www.creative-tim.com/license>",
-  "description": "ReactJS version of Soft UI Dashboard by Creative Tim",
   "bugs": {
     "url": "https://github.com/creativetimofficial/soft-ui-dashboard-react/issues"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/creativetimofficial/soft-ui-dashboard-react.git"
-  },
   "dependencies": {
+    "@chatscope/chat-ui-kit-react": "^2.0.3",
     "@emotion/cache": "11.11.0",
     "@emotion/react": "11.11.0",
     "@emotion/styled": "11.11.0",
@@ -38,6 +32,7 @@
     "react-router-dom": "6.11.1",
     "react-scripts": "5.0.1",
     "react-toastify": "^10.0.4",
+    "reactstrap": "^9.2.2",
     "stylis": "4.2.0",
     "stylis-plugin-rtl": "2.1.1",
     "uuid": "9.0.0",
@@ -53,12 +48,6 @@
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
     "install:peer-deps": "npm install --legacy-peer-deps"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -72,7 +61,6 @@
     ]
   },
   "devDependencies": {
-    "eslint": "8.40.0",
     "eslint-config-prettier": "8.8.0",
     "eslint-plugin-import": "2.27.5",
     "eslint-plugin-prettier": "4.2.1",

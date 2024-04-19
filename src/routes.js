@@ -21,6 +21,8 @@ import AddMachine from "components/Machine/AddMachine";
 import ArmoireList from "components/Armoire/ArmoireList";
 import AddArmoire from "components/Armoire/AddArmoire";
 import ArmoireStatistique from "components/Armoire/StatistiqueArmoire";
+import ChatBot from "components/AI_ChatBot/AIChatBot";
+import SimpleForm from "components/AI_ChatBot/Aichatbotcomp";
 
 const routes = [
   {
@@ -121,6 +123,19 @@ const routes = [
     noCollapse: true,
     hidden: true, // Flag to indicate that this route should not appear in the navigation menu
   }, 
+  { type: "title", title: "AI Chat", key: "ai-chatbot-pages" },
+   // Add Machine route (conditionally rendered)
+   {
+    type: "collapse",
+    name: "AI ChatBot",
+    key: "ai-chatbot",
+    route: "/chatbot",
+    icon: <Shop size="12px" />,
+    component: <SimpleForm/>,
+    noCollapse: true,
+  },
+ 
+  
 
 
   { type: "title", title: "Account Pages", key: "account-pages" },
