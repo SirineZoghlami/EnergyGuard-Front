@@ -12,7 +12,6 @@ import SoftBox from "components/SoftBox";
 import SoftInput from "components/SoftInput";
 import SoftButton from "components/SoftButton";
 import SoftTypography from "components/SoftTypography";
-import { ref } from 'yup';
 
 
 
@@ -26,13 +25,14 @@ const AddArmoire = () => {
   const [isActive, setIsActive] = useState('oui'); // State for is active radio button
   const [tgbtId, setTgbtId] = useState(''); // State for TGBT ID dropdown
 
-  const apiKey = process.env.REACT_APP_API_KEY;
+  const apiKey = "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"
 
 
   const [name,setName] = useState('')
   
   
   
+  const description ="react project for beginners"
   
   
   const [result,setResult  ] = useState([])
@@ -60,16 +60,14 @@ const AddArmoire = () => {
           });
     
           if (!response.ok) {
-            throw new Error('Failed to generate response');
+            throw new Error('Failed to generate sub-tasks');
           }
-      
+    
           const data = await response.json();
-
-         console.log(data)
-
           const generatedContent = data.choices[0]?.message?.content || '';
     
           console.log(name);
+          console.log(description);
           console.log(generatedContent);
     
           const generatedTasks = generatedContent.split('\n').map(task => {
@@ -118,11 +116,12 @@ const AddArmoire = () => {
     setSnackbarOpen(false);
   };
 
-  const handleOnClick = () => {
-    setName(document.getElementById('serine').value);
+ const handleOnClick = () => {
+  const newName = document.getElementById('serine').value;
+  setName(newName);
+  console.log("nameeeee", newName);
+};
 
-    console.log("nameeeee",name)
-  };
 
 
   return (
@@ -141,7 +140,7 @@ const AddArmoire = () => {
 
 <>
 {result.map((result1 , index) =>(
-  <h1 key={index}>{result1.text}</h1>
+  <h1 key={index}>{index}{result1.text}</h1>
 
 ))}
 </>

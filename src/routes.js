@@ -23,6 +23,7 @@ import AddArmoire from "components/Armoire/AddArmoire";
 import ArmoireStatistique from "components/Armoire/StatistiqueArmoire";
 import ChatBot from "components/AI_ChatBot/AIChatBot";
 import SimpleForm from "components/AI_ChatBot/Aichatbotcomp";
+import GoogleCalendarComponent from "components/Calendier/Calender";
 
 const routes = [
   {
@@ -90,7 +91,7 @@ const routes = [
     icon: <Shop size="12px" />,
     component: <AddMachine />,
     noCollapse: true,
-    hidden: true, // Flag to indicate that this route should not appear in the navigation menu
+    hidden: true, 
   },
   { type: "title", title: "Armoires", key: "armoire-pages" },
    // Add Machine route (conditionally rendered)
@@ -134,7 +135,26 @@ const routes = [
     component: <SimpleForm/>,
     noCollapse: true,
   },
- 
+  {
+    type: "collapse",
+    name: "test",
+    key: "test",
+    route: "/test",
+    icon: <Shop size="12px" />,
+    component: <ChatBot/>,
+    noCollapse: true,
+  },
+  { type: "title", title: "Calendier de maintenance", key: "calender" },
+  // Add Machine route (conditionally rendered)
+  {
+   type: "collapse",
+   name: "Calendier",
+   key: "calendier-maintenance",
+   route: "/calendier-maintenance",
+   icon: <Shop size="12px" />,
+   component: <GoogleCalendarComponent/>,
+   noCollapse: true,
+ },
   
 
 

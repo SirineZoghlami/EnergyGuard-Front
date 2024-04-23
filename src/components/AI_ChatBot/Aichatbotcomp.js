@@ -14,8 +14,8 @@ import SoftTypography from "components/SoftTypography";
 
 
 
- const apiKey = process.env.REACT_APP_API_KEY;
-
+ const apiKey = "";
+ 
 
  
  function SimpleForm() {
@@ -65,7 +65,7 @@ import SoftTypography from "components/SoftTypography";
    
            const responseData1 = await response.json();
            console.log(responseData1)
-           const responseData = responseData1.choices[0]?.message?.content || '';
+           const responseData = responseData1.choices?.[0]?.message?.content || '';
    
            if (responseData ) {
              const sanitizedMessage = responseData;
@@ -139,15 +139,7 @@ import SoftTypography from "components/SoftTypography";
                   
                    {message.sender === 'ChatAPI' }
                    
-                 <div className='symbol symbol-50px me-5'>
-                       <span className='symbol-label '>
-                       <img
-   src={RobotSVg}             
-   style={{height : '75px', width : '75px'}}
-   alt=''
-                     />
-                       </span>
-                     </div>
+                 
                      {messages.map((message, i) => (
                  <Message key={i} model={message}>
                   
@@ -163,10 +155,7 @@ import SoftTypography from "components/SoftTypography";
 
                ))}
                
-                 <br/>
-             <br/>
-             <br/>
-             <br/>
+           
              </MessageList>
            
              <MessageInput placeholder="Ecrire votre message ici" onSend={handleSend} />

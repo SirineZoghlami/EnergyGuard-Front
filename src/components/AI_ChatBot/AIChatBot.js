@@ -26,7 +26,7 @@ const ChatBot = () => {
   const [isActive, setIsActive] = useState('oui'); // State for is active radio button
   const [tgbtId, setTgbtId] = useState(''); // State for TGBT ID dropdown
 
-  const apiKey = process.env.REACT_APP_API_KEY;
+  const apiKey = "";
 
 
   const [name,setName] = useState('')
@@ -150,29 +150,28 @@ const ChatBot = () => {
        )       
        }
     
-<SoftBox boxShadow={3} borderRadius="12px" p={3} sx={{
-  backgroundImage: "linear-gradient(to right, #4ecdc4, #556270)",
-}}>
-  <Typography variant="h5" align="center" gutterBottom>
-    Assistant d&apos;information sur les équipements industriels
-  </Typography>
-  <form onSubmit={handleSubmit(onSubmit)}>
-    <Grid container spacing={2} justify="center">
-      <Grid item xs={8}>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <SoftInput {...register("nom", { required: true })} placeholder="Besoin de renseignements sur un équipements industriels ? Tapez votre demande ici." />
-        </div>
-      </Grid>
-      <Grid item xs={12} align="center">
-        <SoftButton variant="gradient" color="info" size="large" type="submit">
-          Envoyer
-        </SoftButton>
-      </Grid>
-    </Grid>
-  </form>
-</SoftBox>
-
-
+        <SoftBox boxShadow={3} borderRadius="12px" p={3} sx={{
+          backgroundImage: "linear-gradient(to right, #4ecdc4, #556270)",
+        }}>
+        <Typography variant="h5" align="center" gutterBottom>
+        Assistant d&apos;information sur les équipements industriels
+        </Typography>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Grid container spacing={2}>
+             
+              <Grid item xs={6}>
+                <SoftInput {...register("nom", { required: true })} placeholder="" />
+              </Grid>
+              
+              
+              <Grid item xs={12} align="center">
+                <SoftButton variant="gradient" color="info" size="large" type="submit">
+                  Ajouter
+                </SoftButton>
+              </Grid>
+            </Grid>
+          </form>
+        </SoftBox>
         
       </Box>
     </DashboardLayout>
