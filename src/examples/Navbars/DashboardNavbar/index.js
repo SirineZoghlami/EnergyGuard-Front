@@ -1,17 +1,4 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.1
-=========================================================
 
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
 
 import { useState, useEffect } from "react";
 
@@ -28,12 +15,10 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import Icon from "@mui/material/Icon";
 
-// Soft UI Dashboard React components
 import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
 import SoftInput from "components/SoftInput";
 
-// Soft UI Dashboard React examples
 import Breadcrumbs from "examples/Breadcrumbs";
 import NotificationItem from "examples/Items/NotificationItem";
 
@@ -46,7 +31,6 @@ import {
   navbarMobileMenu,
 } from "examples/Navbars/DashboardNavbar/styles";
 
-// Soft UI Dashboard React context
 import {
   useSoftUIController,
   setTransparentNavbar,
@@ -64,6 +48,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
   const { miniSidenav, transparentNavbar, fixedNavbar, openConfigurator } = controller;
   const [openMenu, setOpenMenu] = useState(false);
   const route = useLocation().pathname.split("/").slice(1);
+  const currentUser = localStorage.getItem("currentUser");
 
   useEffect(() => {
     // Setting the navbar type
@@ -95,9 +80,11 @@ function DashboardNavbar({ absolute, light, isMini }) {
   const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
   const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
   const handleCloseMenu = () => setOpenMenu(false);
+  const handlesubmit = () => localStorage.removeItem("currentUser");
 
   // Render the notifications menu
   const renderMenu = () => (
+    
     <Menu
       anchorEl={openMenu}
       anchorReference={null}
@@ -147,14 +134,10 @@ function DashboardNavbar({ absolute, light, isMini }) {
         </SoftBox>
         {isMini ? null : (
           <SoftBox sx={(theme) => navbarRow(theme, { isMini })}>
-            <SoftBox pr={1}>
-              <SoftInput
-                placeholder="Type here..."
-                icon={{ component: "search", direction: "left" }}
-              />
-            </SoftBox>
+            
+           
             <SoftBox color={light ? "white" : "inherit"}>
-              <Link to="/authentication/sign-in">
+            {currentUser?null:<Link to="/authentication/sign-in">
                 <IconButton sx={navbarIconButton} size="small">
                   <Icon
                     sx={({ palette: { dark, white } }) => ({
@@ -163,7 +146,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
                   >
                     account_circle
                   </Icon>
-                  <SoftTypography
+                  <SoftTypography 
                     variant="button"
                     fontWeight="medium"
                     color={light ? "white" : "dark"}
@@ -171,7 +154,27 @@ function DashboardNavbar({ absolute, light, isMini }) {
                     Sign in
                   </SoftTypography>
                 </IconButton>
-              </Link>
+              </Link>}
+              {currentUser ? (
+          <Link to="/authentication/sign-in">
+    <IconButton sx={navbarIconButton} size="small" onClick={handlesubmit}>
+      <Icon
+        sx={({ palette: { dark, white } }) => ({
+          color: light ? white.main : dark.main,
+        })}
+      >
+        account_circle
+      </Icon>
+      <SoftTypography 
+        variant="button"
+        fontWeight="medium"
+        color={light ? "white" : "dark"}
+      >
+        Sign out
+      </SoftTypography>
+    </IconButton>
+  </Link>
+) : null}
               <IconButton
                 size="small"
                 color="inherit"
@@ -182,14 +185,14 @@ function DashboardNavbar({ absolute, light, isMini }) {
                   {miniSidenav ? "menu_open" : "menu"}
                 </Icon>
               </IconButton>
-              <IconButton
+              {/* <IconButton
                 size="small"
                 color="inherit"
                 sx={navbarIconButton}
                 onClick={handleConfiguratorOpen}
               >
                 <Icon>settings</Icon>
-              </IconButton>
+              </IconButton> */}
               <IconButton
                 size="small"
                 color="inherit"

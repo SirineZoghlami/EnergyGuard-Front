@@ -3,7 +3,6 @@
 import colors from "assets/theme/base/colors";
 import typography from "assets/theme/base/typography";
 
-// Soft UI Dashboard React helper functions
 import pxToRem from "assets/theme/functions/pxToRem";
 
 const { dark } = colors;

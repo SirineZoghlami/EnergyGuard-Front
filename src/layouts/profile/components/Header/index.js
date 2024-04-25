@@ -1,72 +1,50 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-import { useState, useEffect } from "react";
-
-// @mui material components
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { deleteUser } from "../../../../actions/users";
+import { useNavigate } from 'react-router-dom';
+import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
-import AppBar from "@mui/material/AppBar";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-
-// Soft UI Dashboard React components
 import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
 import SoftAvatar from "components/SoftAvatar";
-
-// Soft UI Dashboard React examples
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-
-// Soft UI Dashboard React icons
-import Cube from "examples/Icons/Cube";
-import Document from "examples/Icons/Document";
-import Settings from "examples/Icons/Settings";
-
-// Soft UI Dashboard React base styles
 import breakpoints from "assets/theme/base/breakpoints";
-
-// Images
-import burceMars from "assets/images/bruce-mars.jpg";
+import avatar from "assets/images/admin-user-icon-3.jpg";
 import curved0 from "assets/images/curved-images/curved0.jpg";
 
 function Header() {
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
-  const [tabValue, setTabValue] = useState(0);
+  const currentUserJson = localStorage.getItem("currentUser");
+  const currentUser = currentUserJson ? JSON.parse(currentUserJson) : null;
+  const navigateTo = useNavigate();
 
   useEffect(() => {
-    // A function that sets the orientation state of the tabs.
     function handleTabsOrientation() {
-      return window.innerWidth < breakpoints.values.sm
-        ? setTabsOrientation("vertical")
-        : setTabsOrientation("horizontal");
+      setTabsOrientation(window.innerWidth < breakpoints.values.sm ? "vertical" : "horizontal");
     }
 
-    /** 
-     The event listener that's calling the handleTabsOrientation function when resizing the window.
-    */
     window.addEventListener("resize", handleTabsOrientation);
-
-    // Call the handleTabsOrientation function to set the state with the initial value.
     handleTabsOrientation();
 
-    // Remove event listener on cleanup
     return () => window.removeEventListener("resize", handleTabsOrientation);
-  }, [tabsOrientation]);
+  }, []);
 
-  const handleSetTabValue = (event, newValue) => setTabValue(newValue);
+  const dispatch = useDispatch();
+
+  const handleDeleteUser = async () => {
+    try {
+      if (currentUser && currentUser.others._id) {
+        console.log("Deleting user with ID:", currentUser.others._id);
+        await dispatch(deleteUser(currentUser.others._id));
+        localStorage.removeItem("currentUser");
+        navigateTo('/authentication/sign-in');
+      } else {
+        console.error("User ID not found or invalid.");
+      }
+    } catch (error) {
+      console.error("Failed to delete user:", error);
+    }
+  };
 
   return (
     <SoftBox position="relative">
@@ -79,10 +57,7 @@ function Header() {
         borderRadius="xl"
         sx={{
           backgroundImage: ({ functions: { rgba, linearGradient }, palette: { gradients } }) =>
-            `${linearGradient(
-              rgba(gradients.info.main, 0.6),
-              rgba(gradients.info.state, 0.6)
-            )}, url(${curved0})`,
+            `${linearGradient(rgba(gradients.info.main, 0.6), rgba(gradients.info.state, 0.6))}, url(${curved0})`,
           backgroundSize: "cover",
           backgroundPosition: "50%",
           overflow: "hidden",
@@ -100,41 +75,45 @@ function Header() {
           px: 2,
         }}
       >
+        
         <Grid container spacing={3} alignItems="center">
           <Grid item>
-            <SoftAvatar
-              src={burceMars}
-              alt="profile-image"
-              variant="rounded"
-              size="xl"
-              shadow="sm"
-            />
+            <SoftAvatar src={avatar} alt="profile-image" variant="rounded" size="xl" shadow="sm" />
           </Grid>
-          <Grid item>
+          <Grid item xs={8}>
             <SoftBox height="100%" mt={0.5} lineHeight={1}>
               <SoftTypography variant="h5" fontWeight="medium">
-                Alex Thompson
+                {currentUser?.others.username}
               </SoftTypography>
               <SoftTypography variant="button" color="text" fontWeight="medium">
-                CEO / Co-Founder
+                {currentUser?.others.role}
               </SoftTypography>
             </SoftBox>
           </Grid>
-          <Grid item xs={12} md={6} lg={4} sx={{ ml: "auto" }}>
-            <AppBar position="static">
-              <Tabs
-                orientation={tabsOrientation}
-                value={tabValue}
-                onChange={handleSetTabValue}
-                sx={{ background: "transparent" }}
-              >
-                <Tab label="App" icon={<Cube />} />
-                <Tab label="Message" icon={<Document />} />
-                <Tab label="Settings" icon={<Settings />} />
-              </Tabs>
-            </AppBar>
-          </Grid>
+         
         </Grid>
+        <Grid item xs={4} style={{ textAlign: 'right' }}>
+            <SoftBox>
+              <button
+                style={{
+                  backgroundColor: "transparent",
+                  border: "2px solid red",
+                  color: "red",
+                  padding: "8px 16px",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                  transition: "background-color 0.3s, color 0.3s",
+                  marginTop: "5px",
+                  outline: "none",
+                  fontWeight: "bold",
+                }}
+                onClick={handleDeleteUser}
+              >
+                Delete Account
+              </button>
+            </SoftBox>
+          </Grid>
+          
       </Card>
     </SoftBox>
   );

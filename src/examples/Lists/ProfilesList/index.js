@@ -1,72 +1,56 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// react-routers components
-import { Link } from "react-router-dom";
-
-// prop-types is library for typechecking of props
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-
-// @mui material components
 import Card from "@mui/material/Card";
-
-// Soft UI Dashboard React components
 import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
 import SoftAvatar from "components/SoftAvatar";
 import SoftButton from "components/SoftButton";
+import EditUserProfile from "../../../layouts/profile/components/Edituser/editUserProfile.js";
+import adminAvatar from "../../../assets/images/admin-user-icon-3.jpg";
+import SoftInput from "components/SoftInput";
+import Pagination from "@mui/material/Pagination";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 function ProfilesList({ title, profiles }) {
-  const renderProfiles = profiles.map(({ image, name, description, action }) => (
-    <SoftBox key={name} component="li" display="flex" alignItems="center" py={1} mb={1}>
-      <SoftBox mr={2}>
-        <SoftAvatar src={image} alt="something here" variant="rounded" shadow="md" />
-      </SoftBox>
-      <SoftBox
-        display="flex"
-        flexDirection="column"
-        alignItems="flex-start"
-        justifyContent="center"
-      >
-        <SoftTypography variant="button" fontWeight="medium">
-          {name}
-        </SoftTypography>
-        <SoftTypography variant="caption" color="text">
-          {description}
-        </SoftTypography>
-      </SoftBox>
-      <SoftBox ml="auto">
-        {action.type === "internal" ? (
-          <SoftButton component={Link} to={action.route} variant="text" color="info">
-            {action.label}
-          </SoftButton>
-        ) : (
-          <SoftButton
-            component="a"
-            href={action.route}
-            target="_blank"
-            rel="noreferrer"
-            variant="text"
-            color={action.color}
-          >
-            {action.label}
-          </SoftButton>
-        )}
-      </SoftBox>
-    </SoftBox>
-  ));
+  const [editingUserId, setEditingUserId] = useState(null);
+  const [username, setUsername] = useState();
+  const [role, setRole] = useState();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedRole, setSelectedRole] = useState(""); // State for selected role
+
+  const handleEditUser = (userId, username, role) => {
+    setEditingUserId(userId);
+    setUsername(username);
+    setRole(role);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingUserId(null);
+  };
+
+  // Function to handle page change
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
+  };
+
+  // Function to handle role selection change
+  const handleRoleChange = (event) => {
+    setSelectedRole(event.target.value);
+  };
+
+  // Calculate start and end index of users to display based on current page
+  const startIndex = (currentPage - 1) * 5;
+  const endIndex = Math.min(startIndex + 5, profiles.length);
+
+  // Filtered and paginated users
+  const paginatedUsers = profiles
+    .filter((profile) =>
+      profile.username.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      (selectedRole === "" || profile.role === selectedRole) // Include role filtering
+    )
+    .slice(startIndex, endIndex);
 
   return (
     <Card sx={{ height: "100%" }}>
@@ -76,18 +60,74 @@ function ProfilesList({ title, profiles }) {
         </SoftTypography>
       </SoftBox>
       <SoftBox p={2}>
-        <SoftBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
-          {renderProfiles}
+        <SoftBox pb={1} display="flex" alignItems="center">
+          <SoftInput
+            placeholder="Search"
+            icon={{ component: "search", direction: "left" }}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <Select
+            value={selectedRole}
+            onChange={handleRoleChange}
+            variant="outlined"
+            displayEmpty
+            inputProps={{ 'aria-label': 'Without label' }}
+          >
+            <MenuItem value="">All Roles</MenuItem>
+            <MenuItem value="Administrator">Administrator</MenuItem>
+            <MenuItem value="Energy Manager">Energy Manager</MenuItem>
+            <MenuItem value="Operator">Operator</MenuItem>
+          </Select>
         </SoftBox>
+        <SoftBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
+          {paginatedUsers.map(({ _id, username, role }) => (
+            <SoftBox key={_id} component="li" display="flex" alignItems="center" justifyContent="space-between" py={1} mb={1}>
+              <SoftBox display="flex" alignItems="center">
+                <SoftBox mr={2}>
+                  <SoftAvatar src={adminAvatar} alt="something here" variant="rounded" shadow="md" />
+                </SoftBox>
+                <SoftBox display="flex" flexDirection="column" alignItems="flex-start" justifyContent="center">
+                  <SoftTypography variant="button" fontWeight="medium">
+                    {username}
+                  </SoftTypography>
+                  <SoftTypography variant="caption" color="text">
+                    {role}
+                  </SoftTypography>
+                </SoftBox>
+              </SoftBox>
+              <SoftButton type="button" variant="gradient" color="info" onClick={() => handleEditUser(_id, username, role)}>
+                Edit User
+              </SoftButton>
+            </SoftBox>
+          ))}
+        </SoftBox>
+        <Pagination
+          count={Math.ceil(profiles.length / 5)} // Total number of pages
+          page={currentPage}
+          onChange={handlePageChange}
+        />
       </SoftBox>
+      {editingUserId && (
+        <EditUserProfile
+          userId={editingUserId}
+          username={username}
+          role={role}
+          onCancel={handleCancelEdit}
+        />
+      )}
     </Card>
   );
 }
 
-// Typechecking props for the ProfilesList
 ProfilesList.propTypes = {
   title: PropTypes.string.isRequired,
-  profiles: PropTypes.arrayOf(PropTypes.object).isRequired,
+  profiles: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      username: PropTypes.string.isRequired,
+      role: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 };
 
 export default ProfilesList;

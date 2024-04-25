@@ -1,120 +1,167 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-import { useState } from "react";
-
-// @mui material components
+import React, { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
-import Switch from "@mui/material/Switch";
-
-// Soft UI Dashboard React components
 import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
+import { Grid, Button, ButtonGroup } from "@mui/material";
+import GradientLineChart from "examples/Charts/LineCharts/GradientLineChart";
+import Icon from "@mui/material/Icon";
+import typography from "assets/theme/base/typography";
+import gradientLineChartData from "layouts/dashboard/data/gradientLineChartData";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 function PlatformSettings() {
-  const [followsMe, setFollowsMe] = useState(true);
-  const [answersPost, setAnswersPost] = useState(false);
-  const [mentionsMe, setMentionsMe] = useState(true);
-  const [newLaunches, setNewLaunches] = useState(false);
-  const [productUpdate, setProductUpdate] = useState(true);
-  const [newsletter, setNewsletter] = useState(true);
+    const { size } = typography;
 
-  return (
-    <Card>
-      <SoftBox pt={2} px={2}>
-        <SoftTypography variant="h6" fontWeight="medium" textTransform="capitalize">
-          platform settings
-        </SoftTypography>
-      </SoftBox>
-      <SoftBox pt={1.5} pb={2} px={2} lineHeight={1.25}>
-        <SoftTypography variant="caption" fontWeight="bold" color="text" textTransform="uppercase">
-          account
-        </SoftTypography>
-        <SoftBox display="flex" py={1} mb={0.25}>
-          <SoftBox mt={0.25}>
-            <Switch checked={followsMe} onChange={() => setFollowsMe(!followsMe)} />
-          </SoftBox>
-          <SoftBox width="80%" ml={2}>
-            <SoftTypography variant="button" fontWeight="regular" color="text">
-              Email me when someone follows me
-            </SoftTypography>
-          </SoftBox>
+    const machines = [
+        { title: "Machine 1", percentage: "5%", description: "Description for Machine 1" },
+        { title: "Machine 2", percentage: "10%", description: "Description for Machine 2" },
+        { title: "Machine 3", percentage: "68%", description: "Description for Machine 3" },
+    ];
+
+    const [currentPage, setCurrentPage] = useState(0);
+    const [timeInterval, setTimeInterval] = useState("day");
+
+    const [notification, setNotification] = useState({ open: false, message: "" });
+
+    const handleClickNext = () => {
+        setCurrentPage((prevPage) => prevPage + 1);
+    };
+
+    const handleClickPrev = () => {
+        setCurrentPage((prevPage) => prevPage - 1);
+    };
+
+    const handleTimeIntervalChange = (interval) => {
+        setTimeInterval(interval);
+    };
+
+    const renderPaginationButtons = () => (
+        <SoftBox mt={2} display="flex" justifyContent="center">
+            <Button onClick={handleClickPrev} disabled={currentPage === 0}>
+                Prev
+            </Button>
+            <Button onClick={handleClickNext} disabled={currentPage === machines.length - 1}>
+                Next
+            </Button>
         </SoftBox>
-        <SoftBox display="flex" py={1} mb={0.25}>
-          <SoftBox mt={0.25}>
-            <Switch checked={answersPost} onChange={() => setAnswersPost(!answersPost)} />
-          </SoftBox>
-          <SoftBox width="80%" ml={2}>
-            <SoftTypography variant="button" fontWeight="regular" color="text">
-              Email me when someone answers on my post
-            </SoftTypography>
-          </SoftBox>
+    );
+
+    const renderTimeIntervalButtons = () => (
+        <SoftBox mt={2} display="flex" justifyContent="center">
+            <ButtonGroup>
+                <Button
+                    onClick={() => handleTimeIntervalChange("minute")}
+                    variant={timeInterval === "minute" ? "contained" : "outlined"}
+                >
+                    Per Minute
+                </Button>
+                <Button
+                    onClick={() => handleTimeIntervalChange("hour")}
+                    variant={timeInterval === "hour" ? "contained" : "outlined"}
+                >
+                    Per Hour
+                </Button>
+                <Button
+                    onClick={() => handleTimeIntervalChange("day")}
+                    variant={timeInterval === "day" ? "contained" : "outlined"}
+                >
+                    Per Day
+                </Button>
+            </ButtonGroup>
         </SoftBox>
-        <SoftBox display="flex" py={1} mb={0.25}>
-          <SoftBox mt={0.25}>
-            <Switch checked={mentionsMe} onChange={() => setMentionsMe(!mentionsMe)} />
-          </SoftBox>
-          <SoftBox width="80%" ml={2}>
-            <SoftTypography variant="button" fontWeight="regular" color="text">
-              Email me when someone mentions me
-            </SoftTypography>
-          </SoftBox>
-        </SoftBox>
-        <SoftBox mt={3}>
-          <SoftTypography
-            variant="caption"
-            fontWeight="bold"
-            color="text"
-            textTransform="uppercase"
-          >
-            application
-          </SoftTypography>
-        </SoftBox>
-        <SoftBox display="flex" py={1} mb={0.25}>
-          <SoftBox mt={0.25}>
-            <Switch checked={newLaunches} onChange={() => setNewLaunches(!newLaunches)} />
-          </SoftBox>
-          <SoftBox width="80%" ml={2}>
-            <SoftTypography variant="button" fontWeight="regular" color="text">
-              New launches and projects
-            </SoftTypography>
-          </SoftBox>
-        </SoftBox>
-        <SoftBox display="flex" py={1} mb={0.25}>
-          <SoftBox mt={0.25}>
-            <Switch checked={productUpdate} onChange={() => setProductUpdate(!productUpdate)} />
-          </SoftBox>
-          <SoftBox width="80%" ml={2}>
-            <SoftTypography variant="button" fontWeight="regular" color="text">
-              Monthly product updates
-            </SoftTypography>
-          </SoftBox>
-        </SoftBox>
-        <SoftBox display="flex" py={1} mb={0.25}>
-          <SoftBox mt={0.25}>
-            <Switch checked={newsletter} onChange={() => setNewsletter(!newsletter)} />
-          </SoftBox>
-          <SoftBox width="80%" ml={2}>
-            <SoftTypography variant="button" fontWeight="regular" color="text">
-              Subscribe to newsletter
-            </SoftTypography>
-          </SoftBox>
-        </SoftBox>
-      </SoftBox>
-    </Card>
-  );
+    );
+
+    const modifyChartData = (interval) => {
+        switch (interval) {
+            case "minute":
+                return {
+                    ...gradientLineChartData,
+                    labels: ["0", "10", "20", "30", "40", "50", "60"]
+                };
+            case "hour":
+                return {
+                    ...gradientLineChartData,
+                    labels: ["00", "03", "06", "09", "12", "15", "18", "21", "24"]
+                };
+            case "day":
+                return gradientLineChartData;
+            default:
+                return gradientLineChartData;
+        }
+    };
+
+    const detectAnomalies = (data) => {
+        const threshold = 500; 
+        data.forEach((value, index) => {
+            if (value > threshold) {
+                setNotification({
+                    open: true,
+                    message: `Excess in air compressed usage detected at index ${index}: ${value} liters`,
+                });
+            }
+        });
+    };
+
+    const [chartData, setChartData] = useState(modifyChartData(timeInterval));
+
+    useEffect(() => {
+        const updatedChartData = modifyChartData(timeInterval);
+        if (JSON.stringify(updatedChartData) !== JSON.stringify(chartData)) {
+            setChartData(updatedChartData);
+        }
+
+        detectAnomalies(updatedChartData.datasets[0].data);
+    }, [timeInterval]);
+
+    return (
+        <Card>
+            <SoftBox pt={2} px={2}>
+                <SoftTypography variant="h6" fontWeight="medium" textTransform="capitalize">
+                    CofiCab compressed air usage
+                </SoftTypography>
+            </SoftBox>
+            <SoftBox pt={1.5} pb={2} px={2} lineHeight={1.25}>
+                <Grid container spacing={2}>
+                    {machines.map((machine, index) => (
+                        <Grid item xs={12} lg={12} key={index} style={{ display: index === currentPage ? "block" : "none" }}>
+                            <GradientLineChart
+                                title={machine.title}
+                                description={
+                                    <SoftBox display="flex" alignItems="center">
+                                        <SoftBox fontSize={size.lg} color="success" mb={0.3} mr={0.5} lineHeight={0}>
+                                            <Icon className="font-bold">arrow_upward</Icon>
+                                        </SoftBox>
+                                        <SoftTypography variant="button" color="text" fontWeight="medium">
+                                            {machine.percentage} more{" "}
+                                            <SoftTypography variant="button" color="text" fontWeight="regular">
+                                                 in 2022
+                                            </SoftTypography>
+                                        </SoftTypography>
+                                    </SoftBox>
+                                }
+                                height="20.25rem"
+                                chart={chartData}
+                            />
+                        </Grid>
+                    ))}
+                </Grid>
+                {renderPaginationButtons()}
+                {renderTimeIntervalButtons()}
+            </SoftBox>
+
+            {/* Snackbar for notifications */}
+            <Snackbar
+                open={notification.open}
+                autoHideDuration={5000} 
+                onClose={() => setNotification({ open: false, message: "" })}
+            >
+                <Alert severity="warning" onClose={() => setNotification({ open: false, message: "" })}>
+                    {notification.message}
+                </Alert>
+            </Snackbar>
+        </Card>
+    );
 }
 
 export default PlatformSettings;

@@ -1,19 +1,4 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.1
-=========================================================
 
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// @mui material components
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 
@@ -25,20 +10,20 @@ export default styled(Button)(({ theme, ownerState }) => {
   const { boxShadow, linearGradient, pxToRem, rgba } = functions;
   const { borderRadius } = borders;
 
-  // styles for the button with variant="contained"
+ 
   const containedStyles = () => {
-    // background color value
+ 
     const backgroundValue = palette[color] ? palette[color].main : white.main;
 
-    // backgroundColor value when button is focused
+  
     const focusedBackgroundValue = palette[color] ? palette[color].focus : white.focus;
 
-    // boxShadow value
+    
     const boxShadowValue = palette[color]
       ? boxShadow([0, 0], [0, 3.2], palette[color].main, 0.5)
       : boxShadow([0, 0], [0, 3.2], dark.main, 0.5);
 
-    // color value
+    
     let colorValue = white.main;
 
     if (color === "white" || !palette[color]) {
@@ -47,7 +32,7 @@ export default styled(Button)(({ theme, ownerState }) => {
       colorValue = gradients.dark.state;
     }
 
-    // color value when button is focused
+   
     let focusedColorValue = white.main;
 
     if (color === "white") {

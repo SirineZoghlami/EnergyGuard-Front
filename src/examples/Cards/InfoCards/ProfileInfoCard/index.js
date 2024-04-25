@@ -1,19 +1,4 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.1
-=========================================================
 
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// react-routers components
 import { Link } from "react-router-dom";
 
 // prop-types is library for typechecking of props
@@ -25,15 +10,15 @@ import Divider from "@mui/material/Divider";
 import Tooltip from "@mui/material/Tooltip";
 import Icon from "@mui/material/Icon";
 
-// Soft UI Dashboard React components
 import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
 
-// Soft UI Dashboard React base styles
 import colors from "assets/theme/base/colors";
 import typography from "assets/theme/base/typography";
 
-function ProfileInfoCard({ title, description, info, social, action }) {
+
+
+function ProfileInfoCard({ title,info, description, social, action }) {
   const labels = [];
   const values = [];
   const { socialMediaColors } = colors;
@@ -109,7 +94,7 @@ function ProfileInfoCard({ title, description, info, social, action }) {
           {renderItems}
           <SoftBox display="flex" py={1} pr={2}>
             <SoftTypography variant="button" fontWeight="bold" textTransform="capitalize">
-              social: &nbsp;
+              CofiCab social: &nbsp;
             </SoftTypography>
             {renderSocial}
           </SoftBox>
