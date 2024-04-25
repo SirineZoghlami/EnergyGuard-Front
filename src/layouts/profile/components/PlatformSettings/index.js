@@ -22,10 +22,8 @@ function PlatformSettings() {
     const [currentPage, setCurrentPage] = useState(0);
     const [timeInterval, setTimeInterval] = useState("day");
 
-    // State for managing notifications
     const [notification, setNotification] = useState({ open: false, message: "" });
 
-    // Event handlers for pagination and interval change
     const handleClickNext = () => {
         setCurrentPage((prevPage) => prevPage + 1);
     };
@@ -38,7 +36,6 @@ function PlatformSettings() {
         setTimeInterval(interval);
     };
 
-    // Function to render pagination buttons
     const renderPaginationButtons = () => (
         <SoftBox mt={2} display="flex" justifyContent="center">
             <Button onClick={handleClickPrev} disabled={currentPage === 0}>
@@ -50,7 +47,6 @@ function PlatformSettings() {
         </SoftBox>
     );
 
-    // Function to render interval buttons
     const renderTimeIntervalButtons = () => (
         <SoftBox mt={2} display="flex" justifyContent="center">
             <ButtonGroup>
@@ -76,7 +72,6 @@ function PlatformSettings() {
         </SoftBox>
     );
 
-    // Function to modify chart data based on selected interval
     const modifyChartData = (interval) => {
         switch (interval) {
             case "minute":
@@ -96,12 +91,10 @@ function PlatformSettings() {
         }
     };
 
-    // Define the anomaly detection function
     const detectAnomalies = (data) => {
-        const threshold = 500; // Set your threshold here, e.g., 500 liters
+        const threshold = 500; 
         data.forEach((value, index) => {
             if (value > threshold) {
-                // Show a notification when an anomaly is detected
                 setNotification({
                     open: true,
                     message: `Excess in air compressed usage detected at index ${index}: ${value} liters`,
@@ -110,18 +103,14 @@ function PlatformSettings() {
         });
     };
 
-    // State variable for chart data
     const [chartData, setChartData] = useState(modifyChartData(timeInterval));
 
-    // Use effect to update chart data and detect anomalies when time interval changes
     useEffect(() => {
         const updatedChartData = modifyChartData(timeInterval);
-        // Avoid updating state if there is no change
         if (JSON.stringify(updatedChartData) !== JSON.stringify(chartData)) {
             setChartData(updatedChartData);
         }
 
-        // Detect anomalies in the data
         detectAnomalies(updatedChartData.datasets[0].data);
     }, [timeInterval]);
 
