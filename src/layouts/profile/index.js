@@ -1,33 +1,30 @@
-
 import Grid from "@mui/material/Grid";
-import {fetchUsers} from '../../api/userApi.js'
+import { fetchUsers } from '../../api/userApi.js';
 import SoftBox from "components/SoftBox";
-
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import Footer from "examples/Footer";
 import ProfileInfoCard from "examples/Cards/InfoCards/ProfileInfoCard";
 import ProfilesList from "examples/Lists/ProfilesList";
 import FacebookIcon from "@mui/icons-material/Facebook";
-
-
 import Header from "layouts/profile/components/Header";
 import PlatformSettings from "layouts/profile/components/PlatformSettings";
-
 import { useEffect, useState } from "react";
-
-
 
 function Overview() {
   const [usersList, setUsersList] = useState([]);
   useEffect(() => {
-    async function getUsers()  {
+    async function getUsers() {
       const usersList = await fetchUsers();
       setUsersList(usersList.data);
     };
-    getUsers()
-  },[]);
+    getUsers();
+  }, []);
 
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  
+  // Check if user is an administrator
+  const isAdmin = currentUser && currentUser.others && currentUser.others.role === "Administrator";
+
   return (
     <DashboardLayout>
       <Header />
@@ -37,9 +34,7 @@ function Overview() {
             <PlatformSettings />
           </Grid>
           <Grid item xs={12} md={6} xl={4}>
-            
             <ProfileInfoCard
-            
               title="Profile Information"
               info={{
                 username: currentUser?.others.username,
@@ -52,20 +47,17 @@ function Overview() {
                   icon: <FacebookIcon />,
                   color: "facebook",
                 },
-
-              ]} 
+              ]}
               action={{ route: "", tooltip: "Edit Profile" }}
-              
             />
-            
-     
           </Grid>
-          <Grid item xs={12} xl={4}>
-            <ProfilesList title="Users List" profiles={usersList} />
-          </Grid>
+          {isAdmin && (
+            <Grid item xs={12} xl={4}>
+              <ProfilesList title="Users List" profiles={usersList} />
+            </Grid>
+          )}
         </Grid>
       </SoftBox>
-      
       <Footer />
     </DashboardLayout>
   );

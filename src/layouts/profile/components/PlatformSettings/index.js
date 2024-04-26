@@ -118,7 +118,7 @@ function PlatformSettings() {
         <Card>
             <SoftBox pt={2} px={2}>
                 <SoftTypography variant="h6" fontWeight="medium" textTransform="capitalize">
-                    CofiCab compressed air usage
+                    CofiCab compressed air idexes
                 </SoftTypography>
             </SoftBox>
             <SoftBox pt={1.5} pb={2} px={2} lineHeight={1.25}>
@@ -135,7 +135,7 @@ function PlatformSettings() {
                                         <SoftTypography variant="button" color="text" fontWeight="medium">
                                             {machine.percentage} more{" "}
                                             <SoftTypography variant="button" color="text" fontWeight="regular">
-                                                 in 2022
+                                                 in the last hour
                                             </SoftTypography>
                                         </SoftTypography>
                                     </SoftBox>
