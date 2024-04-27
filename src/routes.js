@@ -17,7 +17,7 @@ import SpaceShip from "examples/Icons/SpaceShip";
 import CustomerSupport from "examples/Icons/CustomerSupport";
 import CreditCard from "examples/Icons/CreditCard";
 import Cube from "examples/Icons/Cube";
-
+import CompressedAir from "layouts/acceuil-air";
 const LazyProfile = React.lazy(() => import("layouts/profile"));
 
 const routes = [
@@ -88,6 +88,15 @@ const routes = [
         component: <EditUserProfile />, 
       },
     ],
+  },
+  {
+    type: "collapse",
+    name: "compressed Air",
+    key: "accueil compressed Air",
+    route: "/compressedair",
+    icon: <Office size="12px" />,
+    component: <CompressedAir />,
+    noCollapse: true,
   },
   
   {

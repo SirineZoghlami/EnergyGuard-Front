@@ -35,12 +35,12 @@ function Overview() {
           </Grid>
           <Grid item xs={12} md={6} xl={4}>
             <ProfileInfoCard
-              title="Profile Information"
+              title="General Information"
               info={{
-                username: currentUser?.others.username,
-                role: currentUser?.others.role,
+                // username: currentUser?.others.username,
+                // role: currentUser?.others.role,
               }}
-              description="CofiCab Change Maker"
+              description=""
               social={[
                 {
                   link: "https://www.facebook.com/CoficabTunisCCE",

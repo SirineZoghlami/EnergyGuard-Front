@@ -6,17 +6,16 @@ import { Grid, Button, ButtonGroup } from "@mui/material";
 import GradientLineChart from "examples/Charts/LineCharts/GradientLineChart";
 import Icon from "@mui/material/Icon";
 import typography from "assets/theme/base/typography";
-import gradientLineChartData from "layouts/dashboard/data/gradientLineChartData";
+import gradientLineChartData from "layouts/acceuil-air/data/gradientLineChartData";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
-function PlatformSettings() {
+function Pression() {
     const { size } = typography;
 
     const machines = [
-        { title: "compressor 1", percentage: "", description: "Description for compressor 1" },
-        { title: "compressor 2", percentage: "", description: "Description for compressor 2" },
-        { title: "compressor 3", percentage: "", description: "Description for compressor 3" },
+        { title: "pressure 1", percentage: "", description: "Description for pression 1" },
+        { title: "pressure 2", percentage: "", description: "Description for pression 2" },
     ];
 
     const [currentPage, setCurrentPage] = useState(0);
@@ -97,7 +96,7 @@ function PlatformSettings() {
             if (value > threshold) {
                 setNotification({
                     open: true,
-                    message: `Excess in air compressed usage detected at index ${index}: ${value} liters`,
+                    message: `Excess in compressed air pressure detected at index ${index}: ${value} bars`,
                 });
             }
         });
@@ -118,7 +117,7 @@ function PlatformSettings() {
         <Card>
             <SoftBox pt={2} px={2}>
                 <SoftTypography variant="h6" fontWeight="medium" textTransform="capitalize">
-                    CofiCab Compressors
+                    Pressure idexes
                 </SoftTypography>
             </SoftBox>
             <SoftBox pt={1.5} pb={2} px={2} lineHeight={1.25}>
@@ -160,4 +159,4 @@ function PlatformSettings() {
     );
 }
 
-export default PlatformSettings;
+export default Pression;
