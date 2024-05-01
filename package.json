@@ -46,13 +46,14 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "eslint --no-fix .eslintrc.json && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm ci && npm start",
     "install:peer-deps": "npm install --legacy-peer-deps",
-    "lint": "eslint .eslintrc.json --quiet"
+    "lint": "eslint .eslintrc.json"
   },
+  
   "browserslist": {
     "production": [
       ">0.2%",
