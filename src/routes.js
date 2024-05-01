@@ -56,6 +56,7 @@ import CreditCard from "examples/Icons/CreditCard";
 import Cube from "examples/Icons/Cube";
 import Alarme from "components/Alarme/Alarme";
 
+
 const routes = [
   {
     type: "collapse",
@@ -139,6 +140,7 @@ const routes = [
     component: <Alarme />,
     noCollapse: true,
   },
+
 ];
 
 export default routes;
