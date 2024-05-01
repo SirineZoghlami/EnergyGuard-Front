@@ -24,7 +24,7 @@
     "chroma-js": "2.4.2",
     "file-saver": "^2.0.5",
     "formik": "^2.4.5",
-    "lint": "^9.1.1", // Here we add ESLint to regular dependencies
+    "lint": "^9.1.1", 
     "prop-types": "15.8.1",
     "react": ">=16.8.0",
     "react-chartjs-2": "^3.0.5",
